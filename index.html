@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slack Martech Data Flow</title>
+    <title>Slack Marketing: Customer Communication Platforms — Data Flow</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #1a1a2e;
+            background: #0f0f1a;
             color: #e0e0e0;
             min-height: 100vh;
             overflow-x: hidden;
@@ -18,13 +18,13 @@
         header {
             text-align: center;
             padding: 40px 20px 20px;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
         header h1 {
             font-size: 2.2rem;
-            background: linear-gradient(135deg, #4ecdc4, #6c63ff, #ff6b6b);
+            background: linear-gradient(135deg, #4ecdc4, #6c63ff, #ff6b6b, #ffd93d);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -34,23 +34,31 @@
         header p {
             color: #8892b0;
             font-size: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .controls {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             padding: 20px;
             flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 15, 26, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
         .controls button {
-            padding: 10px 20px;
+            padding: 8px 16px;
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 8px;
             background: rgba(255,255,255,0.05);
             color: #ccd6f6;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -59,46 +67,78 @@
             background: rgba(108, 99, 255, 0.2);
             border-color: #6c63ff;
             color: #fff;
-            box-shadow: 0 0 20px rgba(108, 99, 255, 0.2);
+            box-shadow: 0 0 15px rgba(108, 99, 255, 0.2);
         }
 
-        .canvas-container {
-            position: relative;
-            width: 100%;
-            max-width: 1400px;
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 16px 20px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: #8892b0;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        /* Category sections */
+        .category-section {
+            max-width: 1500px;
             margin: 0 auto;
-            padding: 20px;
-            min-height: 700px;
+            padding: 30px 20px;
         }
 
-        svg.connections {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .category-header h2 {
+            font-size: 1.3rem;
+            color: #fff;
+        }
+
+        .category-header .cat-icon {
+            font-size: 1.5rem;
+        }
+
+        .category-header .platform-count {
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            color: #8892b0;
         }
 
         .nodes-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            grid-template-rows: auto auto auto;
-            gap: 40px 30px;
-            position: relative;
-            z-index: 2;
-            padding: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
         }
 
         .node {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px;
-            padding: 24px 20px;
+            border-radius: 14px;
+            padding: 20px 16px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
         }
@@ -111,73 +151,187 @@
             right: 0;
             height: 3px;
             background: var(--node-color);
-            opacity: 0.7;
+            opacity: 0.6;
         }
 
         .node:hover {
-            transform: translateY(-4px) scale(1.02);
+            transform: translateY(-3px) scale(1.02);
             border-color: var(--node-color);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 30px color-mix(in srgb, var(--node-color) 20%, transparent);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3), 0 0 25px color-mix(in srgb, var(--node-color) 15%, transparent);
         }
 
         .node.highlighted {
             border-color: var(--node-color);
             background: color-mix(in srgb, var(--node-color) 8%, rgba(255,255,255,0.03));
-            box-shadow: 0 0 40px color-mix(in srgb, var(--node-color) 25%, transparent);
+            box-shadow: 0 0 30px color-mix(in srgb, var(--node-color) 20%, transparent);
         }
 
         .node.dimmed {
-            opacity: 0.25;
+            opacity: 0.2;
             transform: scale(0.97);
-        }
-
-        .node-icon {
-            font-size: 2.5rem;
-            margin-bottom: 12px;
-            display: block;
         }
 
         .node-title {
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.9rem;
             margin-bottom: 6px;
             color: #fff;
         }
 
         .node-desc {
-            font-size: 0.78rem;
+            font-size: 0.73rem;
             color: #8892b0;
             line-height: 1.4;
         }
 
-        .node-badge {
-            display: inline-block;
+        .node-badges {
             margin-top: 10px;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 500;
-            background: color-mix(in srgb, var(--node-color) 15%, transparent);
-            color: var(--node-color);
-            border: 1px solid color-mix(in srgb, var(--node-color) 30%, transparent);
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        /* Flow categories */
-        .node[data-category="source"] { --node-color: #4ecdc4; }
-        .node[data-category="orchestration"] { --node-color: #6c63ff; }
-        .node[data-category="channel"] { --node-color: #ff6b6b; }
+        .node-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            background: color-mix(in srgb, var(--node-color) 12%, transparent);
+            color: var(--node-color);
+            border: 1px solid color-mix(in srgb, var(--node-color) 25%, transparent);
+        }
+
+        .node-badge.warning {
+            background: rgba(255, 165, 0, 0.1);
+            color: #ffa500;
+            border-color: rgba(255, 165, 0, 0.3);
+        }
+
+        .node-badge.new {
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+
+        /* Category colors */
+        .node[data-category="data"] { --node-color: #4ecdc4; }
         .node[data-category="analytics"] { --node-color: #ffd93d; }
+        .node[data-category="decisioning"] { --node-color: #6c63ff; }
+        .node[data-category="presentation"] { --node-color: #ff6b6b; }
+        .node[data-category="channels"] { --node-color: #ff9ff3; }
+
+        /* Flow visualization overlay */
+        .flow-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 15, 26, 0.95);
+            z-index: 500;
+            display: none;
+            overflow: auto;
+        }
+
+        .flow-overlay.active { display: block; }
+
+        .flow-overlay .close-flow {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 501;
+            font-size: 0.9rem;
+        }
+
+        .flow-canvas {
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 40px 40px;
+        }
+
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .flow-layer {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            background: rgba(255,255,255,0.02);
+            width: 100%;
+            position: relative;
+        }
+
+        .flow-layer::before {
+            content: attr(data-label);
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #0f0f1a;
+            padding: 0 10px;
+            font-size: 0.75rem;
+            color: var(--layer-color, #8892b0);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .flow-node {
+            padding: 10px 16px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.8rem;
+            color: #ccd6f6;
+            transition: all 0.3s;
+        }
+
+        .flow-node:hover {
+            background: rgba(108, 99, 255, 0.15);
+            border-color: #6c63ff;
+        }
+
+        .flow-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #6c63ff;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
 
         /* Detail panel */
         .detail-panel {
             position: fixed;
-            right: -420px;
+            right: -450px;
             top: 0;
-            width: 400px;
+            width: 420px;
             height: 100vh;
             background: #16213e;
             border-left: 1px solid rgba(255,255,255,0.08);
-            padding: 40px 30px;
+            padding: 40px 24px;
             transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 1000;
             overflow-y: auto;
@@ -210,15 +364,15 @@
             padding: 4px 12px;
             border-radius: 12px;
             font-size: 0.75rem;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .detail-panel h3 {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #8892b0;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin: 20px 0 10px;
+            margin: 18px 0 8px;
         }
 
         .detail-panel ul {
@@ -227,98 +381,23 @@
         }
 
         .detail-panel ul li {
-            padding: 8px 12px;
+            padding: 7px 12px;
             background: rgba(255,255,255,0.03);
             border-radius: 8px;
-            margin-bottom: 6px;
-            font-size: 0.85rem;
-            border-left: 3px solid var(--node-color);
+            margin-bottom: 5px;
+            font-size: 0.82rem;
+            border-left: 3px solid var(--panel-color, #6c63ff);
         }
 
-        .data-flow-item {
+        .detail-panel .flow-connection {
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .data-flow-item .arrow {
-            color: #4ecdc4;
-            font-size: 0.8rem;
-        }
-
-        /* Animated particles on SVG paths */
-        @keyframes flowParticle {
-            0% { offset-distance: 0%; opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { offset-distance: 100%; opacity: 0; }
-        }
-
-        .flow-line {
-            stroke: rgba(108, 99, 255, 0.3);
-            stroke-width: 2;
-            fill: none;
-            transition: all 0.4s ease;
-        }
-
-        .flow-line.active {
-            stroke: rgba(108, 99, 255, 0.8);
-            stroke-width: 3;
-            filter: drop-shadow(0 0 6px rgba(108, 99, 255, 0.5));
-        }
-
-        .flow-line.dimmed {
-            stroke: rgba(108, 99, 255, 0.05);
-        }
-
-        /* Particle dots */
-        .particle {
-            r: 4;
-            fill: #6c63ff;
-            filter: drop-shadow(0 0 4px #6c63ff);
-        }
-
-        /* Legend */
-        .legend {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            padding: 20px;
-            flex-wrap: wrap;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.8rem;
-            color: #8892b0;
-        }
-
-        .legend-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        /* Tooltip */
-        .tooltip {
-            position: fixed;
-            background: #1a1a2e;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            padding: 10px 14px;
-            font-size: 0.8rem;
-            color: #ccd6f6;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.2s;
-            z-index: 999;
-            max-width: 200px;
-        }
-
-        .tooltip.visible {
-            opacity: 1;
+        .detail-panel .flow-connection .dir {
+            color: var(--panel-color, #6c63ff);
+            font-weight: bold;
         }
 
         /* Stats bar */
@@ -326,9 +405,9 @@
             display: flex;
             justify-content: center;
             gap: 40px;
-            padding: 20px;
+            padding: 30px 20px;
             border-top: 1px solid rgba(255,255,255,0.05);
-            margin-top: 20px;
+            flex-wrap: wrap;
         }
 
         .stat {
@@ -350,64 +429,80 @@
             margin-top: 4px;
         }
 
-        @media (max-width: 1000px) {
-            .nodes-grid {
-                grid-template-columns: 1fr 1fr;
-            }
+        /* Search */
+        .search-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 0 20px 10px;
         }
 
-        @media (max-width: 600px) {
-            .nodes-grid {
-                grid-template-columns: 1fr;
-            }
+        .search-input {
+            width: 100%;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #6c63ff;
+        }
+
+        .search-input::placeholder {
+            color: #5a6380;
+        }
+
+        @media (max-width: 768px) {
+            .nodes-grid { grid-template-columns: 1fr 1fr; }
             .detail-panel { width: 100%; right: -100%; }
+            .stats-bar { gap: 20px; }
+        }
+
+        @media (max-width: 480px) {
+            .nodes-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Slack Martech Data Flow</h1>
-        <p>Interactive visualization of campaign orchestration data pipelines</p>
+        <h1>Slack Marketing: Customer Communication Platforms</h1>
+        <p>Interactive data flow visualization across all martech systems</p>
     </header>
 
     <div class="controls">
-        <button class="active" data-filter="all">All Systems</button>
-        <button data-filter="source">Data Sources</button>
-        <button data-filter="orchestration">Orchestration</button>
-        <button data-filter="channel">Channels</button>
-        <button data-filter="analytics">Analytics</button>
-        <button id="animate-btn">Animate Flow</button>
+        <button class="active" data-filter="all">All (43)</button>
+        <button data-filter="data">Data (10)</button>
+        <button data-filter="analytics">Analytics (12)</button>
+        <button data-filter="decisioning">Decisioning (8)</button>
+        <button data-filter="presentation">Presentation (7)</button>
+        <button data-filter="channels">Channels (6)</button>
+        <button id="flow-btn">View Flow Diagram</button>
+    </div>
+
+    <div class="search-container">
+        <input type="text" class="search-input" id="search" placeholder="Search platforms...">
     </div>
 
     <div class="legend">
-        <div class="legend-item"><div class="legend-dot" style="background:#4ecdc4"></div>Data Sources</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#6c63ff"></div>Orchestration</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#ff6b6b"></div>Channels</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#4ecdc4"></div>Data</div>
         <div class="legend-item"><div class="legend-dot" style="background:#ffd93d"></div>Analytics</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#6c63ff"></div>Decisioning</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ff6b6b"></div>Presentation</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ff9ff3"></div>Channels</div>
     </div>
 
-    <div class="canvas-container">
-        <svg class="connections" id="svg-connections"></svg>
-        <div class="nodes-grid" id="nodes-grid"></div>
-    </div>
+    <div id="sections-container"></div>
 
     <div class="stats-bar">
-        <div class="stat">
-            <div class="stat-value">12</div>
-            <div class="stat-label">Connected Systems</div>
-        </div>
-        <div class="stat">
-            <div class="stat-value">24</div>
-            <div class="stat-label">Data Flows</div>
-        </div>
-        <div class="stat">
-            <div class="stat-value">6</div>
-            <div class="stat-label">Campaign Types</div>
-        </div>
-        <div class="stat">
-            <div class="stat-value">100%</div>
-            <div class="stat-label">Human Approval</div>
-        </div>
+        <div class="stat"><div class="stat-value">43</div><div class="stat-label">Total Platforms</div></div>
+        <div class="stat"><div class="stat-value">5</div><div class="stat-label">Functional Layers</div></div>
+        <div class="stat"><div class="stat-value">6</div><div class="stat-label">Channels</div></div>
+        <div class="stat"><div class="stat-value">4</div><div class="stat-label">New to Slack</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Core Changes</div></div>
     </div>
 
     <div class="detail-panel" id="detail-panel">
@@ -415,271 +510,190 @@
         <div id="panel-content"></div>
     </div>
 
-    <div class="tooltip" id="tooltip"></div>
+    <div class="flow-overlay" id="flow-overlay">
+        <button class="close-flow" id="close-flow">Close Flow View</button>
+        <div class="flow-canvas">
+            <div class="flow-diagram" id="flow-diagram"></div>
+        </div>
+    </div>
 
     <script>
-        const nodes = [
-            {
-                id: 'campaign-brief',
-                title: 'Campaign Brief',
-                icon: '📋',
-                desc: 'Structured intake form for campaign requests',
-                category: 'source',
-                badge: 'Input',
-                details: {
-                    dataIn: ['Marketing team input', 'Business objectives', 'Target segments'],
-                    dataOut: ['Parsed brief JSON', 'Campaign parameters', 'Timeline requirements'],
-                    integrations: ['Slack form submission', 'Web intake UI']
-                }
+        const platforms = {
+            data: {
+                label: 'Data',
+                icon: '🗄️',
+                color: '#4ecdc4',
+                items: [
+                    { id: 'snowflake', title: 'Snowflake', desc: 'Primary data warehouse; source for campaign, enrichment, and attribution data', notes: '', dataFlows: { in: ['Campaign events', 'Enrichment sources', 'Attribution signals'], out: ['Query results to Looker/Tableau', 'Audience segments to Data Cloud', 'Attribution data to MI'] } },
+                    { id: 'data-cloud', title: 'Salesforce Data Cloud', desc: 'Unified customer profiles and data activation; Slack Individual dataset migration in progress', notes: 'Core moving to Data360', dataFlows: { in: ['CRM data from Org62', 'Enrichment from Leadspace/Clearbit', 'Behavioral events'], out: ['Unified profiles to SMC', 'Segments to channels', 'Activation signals to Agentforce'] } },
+                    { id: 'salesforce-crm', title: 'Salesforce CRM (Org62)', desc: 'Lead, contact, and opportunity data', notes: '', dataFlows: { in: ['Lead forms', 'Sales activity', 'MadKudu PQL scores'], out: ['Contact data to Data Cloud', 'Opportunity data to Snowflake', 'Lead info to Demandbase'] } },
+                    { id: 'demandbase', title: 'Demandbase', desc: 'SMB lead enrichment and ABM targeting', notes: 'Core moving to Data360', dataFlows: { in: ['Account lists from CRM', 'Intent signals', 'Web visitor data'], out: ['ABM targeting to paid media', 'Lead enrichment to CRM', 'Account scores'] } },
+                    { id: 'liveramp', title: 'LiveRamp', desc: 'Data clean room / LinkedIn data matching', notes: '', dataFlows: { in: ['First-party audiences from Data Cloud', 'CRM segments'], out: ['Matched audiences to LinkedIn', 'Clean room insights'] } },
+                    { id: 'on24-data', title: 'ON24', desc: 'Webinar event data ingestion', notes: '', dataFlows: { in: ['Webinar registrations', 'Attendance data', 'Engagement scores'], out: ['Event data to Snowflake', 'Attendee lists to CRM', 'Engagement to Data Cloud'] } },
+                    { id: 'crunchbase', title: 'Crunchbase', desc: 'Company/firmographic enrichment data', notes: '', dataFlows: { in: ['Company lookups from CRM'], out: ['Firmographic data to Data Cloud', 'Company info enrichment'] } },
+                    { id: 'leadspace', title: 'Leadspace', desc: 'B2B data enrichment and audience building', notes: '', dataFlows: { in: ['Lead/contact records', 'Account data'], out: ['Enriched profiles to Data Cloud', 'Audience segments'] } },
+                    { id: 'clearbit', title: 'Clearbit', desc: 'Lead enrichment — independent tool', notes: 'Independent tool', dataFlows: { in: ['Email/domain lookups'], out: ['Company & person data to CRM', 'Enrichment to Data Cloud'] } },
+                    { id: 'clay', title: 'Clay', desc: 'Data enrichment and outbound automation', notes: 'Same platform, different instance', dataFlows: { in: ['Lead lists', 'Enrichment triggers'], out: ['Enriched data to CRM', 'Outbound sequences'] } }
+                ]
             },
-            {
-                id: 'data-cloud',
-                title: 'Data Cloud',
-                icon: '☁️',
-                desc: 'Unified customer profiles & segments',
-                category: 'source',
-                badge: 'CDP',
-                details: {
-                    dataIn: ['CRM records', 'Behavioral events', 'Third-party enrichment'],
-                    dataOut: ['Audience segments', 'Profile attributes', 'Engagement scores'],
-                    integrations: ['Salesforce CDP', 'Segment', 'mParticle']
-                }
-            },
-            {
-                id: 'salesforce',
-                title: 'Salesforce CRM',
-                icon: '💼',
-                desc: 'Account & opportunity data',
-                category: 'source',
-                badge: 'CRM',
-                details: {
-                    dataIn: ['Sales team updates', 'Lead scoring', 'Pipeline data'],
-                    dataOut: ['Account status', 'Contact preferences', 'Deal stage'],
-                    integrations: ['Marketing Cloud', 'Pardot', 'Data Cloud']
-                }
-            },
-            {
-                id: 'calendar',
-                title: 'Campaign Calendar',
-                icon: '📅',
-                desc: 'Scheduling & conflict detection',
-                category: 'source',
-                badge: 'Planning',
-                details: {
-                    dataIn: ['Approved campaigns', 'Blackout dates', 'Event schedules'],
-                    dataOut: ['Available send windows', 'Conflict alerts', 'Cadence rules'],
-                    integrations: ['Google Calendar', 'Internal planning tools']
-                }
-            },
-            {
-                id: 'orchestrator',
-                title: 'Campaign Orchestrator',
-                icon: '🧠',
-                desc: 'AI-powered campaign planning & coordination',
-                category: 'orchestration',
-                badge: 'Core Engine',
-                details: {
-                    dataIn: ['Parsed briefs', 'Context bundles', 'Rules & playbooks'],
-                    dataOut: ['Campaign plans', 'Draft assets', 'QA results'],
-                    integrations: ['Claude API', 'Rules engine', 'All systems']
-                }
-            },
-            {
-                id: 'ai-engine',
-                title: 'Claude AI',
-                icon: '🤖',
-                desc: 'Brief parsing, copy generation, AI QA',
-                category: 'orchestration',
-                badge: 'AI',
-                details: {
-                    dataIn: ['Structured prompts', 'Context bundles', 'Brand guidelines'],
-                    dataOut: ['Generated copy', 'Campaign structure', 'Quality signals'],
-                    integrations: ['Anthropic API', 'Prompt library']
-                }
-            },
-            {
-                id: 'rules-engine',
-                title: 'Rules Engine',
-                icon: '⚙️',
-                desc: 'Deterministic QA, naming, suppression',
-                category: 'orchestration',
-                badge: 'Validation',
-                details: {
-                    dataIn: ['Campaign drafts', 'Audience selections', 'Naming proposals'],
-                    dataOut: ['Pass/fail results', 'Violation details', 'Fix suggestions'],
-                    integrations: ['QA rules', 'Suppression lists', 'Naming conventions']
-                }
-            },
-            {
-                id: 'review-ui',
-                title: 'Review & Approval',
-                icon: '✅',
-                desc: 'Human-in-the-loop approval workflow',
-                category: 'orchestration',
-                badge: 'HITL',
-                details: {
-                    dataIn: ['Campaign plans', 'QA results', 'Draft previews'],
-                    dataOut: ['Approval status', 'Revision requests', 'Final sign-off'],
-                    integrations: ['Web UI', 'Slack notifications', 'Email alerts']
-                }
-            },
-            {
-                id: 'email',
-                title: 'Email Platform',
-                icon: '📧',
-                desc: 'Email delivery & personalization',
-                category: 'channel',
-                badge: 'Delivery',
-                details: {
-                    dataIn: ['Approved templates', 'Audience lists', 'Send schedules'],
-                    dataOut: ['Delivery metrics', 'Bounce data', 'Engagement events'],
-                    integrations: ['SFMC', 'Braze', 'Iterable', 'Marketo']
-                }
-            },
-            {
-                id: 'slack-channel',
-                title: 'Slack Notifications',
-                icon: '💬',
-                desc: 'Team alerts, summaries & status updates',
-                category: 'channel',
-                badge: 'Comms',
-                details: {
-                    dataIn: ['Campaign status', 'QA alerts', 'Approval requests'],
-                    dataOut: ['Team acknowledgments', 'Quick approvals', 'Feedback'],
-                    integrations: ['Slack API', 'Bot framework', 'Workflows']
-                }
-            },
-            {
-                id: 'analytics',
-                title: 'Campaign Analytics',
+            analytics: {
+                label: 'Analytics',
                 icon: '📊',
-                desc: 'Performance tracking & insights',
-                category: 'analytics',
-                badge: 'Reporting',
-                details: {
-                    dataIn: ['Send metrics', 'Engagement data', 'Conversion events'],
-                    dataOut: ['Performance dashboards', 'ROI reports', 'Recommendations'],
-                    integrations: ['Tableau', 'Looker', 'Internal dashboards']
-                }
+                color: '#ffd93d',
+                items: [
+                    { id: 'looker', title: 'Looker', desc: 'Governed marketing KPIs and metric definitions', notes: '', dataFlows: { in: ['Snowflake query results', 'Metric definitions'], out: ['Dashboards to stakeholders', 'KPI alerts'] } },
+                    { id: 'tableau', title: 'Tableau / Tableau Next', desc: 'Marketing dashboards; bundled with Marketing Intelligence', notes: '', dataFlows: { in: ['Snowflake data', 'MI attribution data'], out: ['Visual dashboards', 'Embedded analytics'] } },
+                    { id: 'ga4', title: 'Google Analytics 4 (GA4)', desc: 'Web analytics for slack.com; BigQuery dataset integration', notes: 'Same platform, different instance', dataFlows: { in: ['slack.com page events', 'Conversion tags'], out: ['Web behavior to BigQuery/Snowflake', 'Audience signals to Google Ads'] } },
+                    { id: 'marketing-intelligence', title: 'Marketing Intelligence (MI)', desc: 'Paid media attribution; 100+ ad/MarTech connectors', notes: '', dataFlows: { in: ['Ad platform spend data', 'Conversion data', 'CRM pipeline'], out: ['Attribution reports to Tableau', 'ROI metrics to Looker'] } },
+                    { id: 'haus', title: 'Haus', desc: 'Incrementality measurement / experimentation', notes: '', dataFlows: { in: ['Campaign exposure data', 'Conversion events'], out: ['Incrementality reports', 'Experiment results'] } },
+                    { id: 'thrive', title: 'Thrive', desc: 'Growth/affiliate analytics pipeline', notes: '', dataFlows: { in: ['Affiliate events from Impact', 'Growth signals'], out: ['Pipeline analytics to Snowflake', 'Partner performance'] } },
+                    { id: 'semrush', title: 'SEMrush', desc: 'SEO analytics and competitive research', notes: 'Core & Slack shared platform', dataFlows: { in: ['Keyword tracking', 'Competitor URLs'], out: ['SEO insights', 'Competitive intelligence'] } },
+                    { id: 'brightedge', title: 'BrightEdge', desc: 'Enterprise SEO and content performance', notes: '⚠️ Core retiring contract', dataFlows: { in: ['Page rankings', 'Content URLs'], out: ['SEO recommendations', 'Content performance'] } },
+                    { id: 'schema-app', title: 'Schema App', desc: 'Structured data / schema markup for SEO', notes: 'Independent tool', dataFlows: { in: ['Page templates', 'Content metadata'], out: ['Schema markup to slack.com', 'Rich result eligibility'] } },
+                    { id: 'ahrefs', title: 'Ahrefs', desc: 'SEO tool — new to Slack', notes: 'New to Slack', dataFlows: { in: ['Domain/URL inputs', 'Competitor analysis'], out: ['Backlink data', 'Keyword opportunities'] } },
+                    { id: 'lumar', title: 'Lumar', desc: 'Website intelligence / technical SEO', notes: 'Independent tool — New to Slack', dataFlows: { in: ['Crawl of slack.com', 'Technical config'], out: ['Technical SEO issues', 'Site health reports'] } },
+                    { id: 'speedcurve', title: 'SpeedCurve', desc: 'Web performance monitoring', notes: 'Same platform, different instance', dataFlows: { in: ['Real user metrics', 'Synthetic tests'], out: ['Performance alerts', 'Core Web Vitals'] } }
+                ]
             },
-            {
-                id: 'feedback-loop',
-                title: 'Feedback Loop',
-                icon: '🔄',
-                desc: 'Learning & optimization signals',
-                category: 'analytics',
-                badge: 'Optimization',
-                details: {
-                    dataIn: ['Campaign results', 'A/B test outcomes', 'User feedback'],
-                    dataOut: ['Updated playbooks', 'Refined rules', 'Model improvements'],
-                    integrations: ['Orchestrator', 'Rules engine', 'AI prompts']
-                }
+            decisioning: {
+                label: 'Decisioning',
+                icon: '🧠',
+                color: '#6c63ff',
+                items: [
+                    { id: 'madkudu', title: 'MadKudu (PQL)', desc: 'Product Qualified Lead scoring and decisioning', notes: 'New to Slack — PQL Scoring', dataFlows: { in: ['Product usage events', 'CRM data'], out: ['PQL scores to CRM', 'Lead routing signals to Agentforce'] } },
+                    { id: 'optimizely', title: 'Optimizely', desc: 'Web experimentation and PLG experimentation', notes: 'Same platform, different instance', dataFlows: { in: ['Experiment configs', 'User segments'], out: ['Winner decisions to slack.com', 'Experiment data to GA4'] } },
+                    { id: 'content-square', title: 'Content Square', desc: 'Digital experience analytics and optimization', notes: 'Same platform, different instance', dataFlows: { in: ['Session replays', 'Click/scroll data'], out: ['UX insights', 'Optimization recommendations'] } },
+                    { id: 'agentforce', title: 'Agentforce / AI Agents', desc: 'Decisioning and automation layer across campaigns and lead routing', notes: '', dataFlows: { in: ['PQL scores from MadKudu', 'CRM triggers', 'Data Cloud signals'], out: ['Automated actions to SMC', 'Lead routing to sales', 'Campaign triggers'] } },
+                    { id: 'impact', title: 'Impact', desc: 'Partner/affiliate program management and decisioning', notes: '', dataFlows: { in: ['Partner activity', 'Conversion events'], out: ['Commission data to Thrive', 'Partner performance'] } },
+                    { id: 'qualified', title: 'Qualified', desc: 'Form to meeting booker; MQL generation', notes: 'New to Slack — Core & Slack shared', dataFlows: { in: ['Web visitor data', 'CRM account info'], out: ['Meeting bookings to CRM', 'MQL signals'] } },
+                    { id: 'integrate', title: 'Integrate', desc: 'Demand gen / lead management and routing', notes: 'Independent tool; Core moving to Converter', dataFlows: { in: ['Content syndication leads', 'Third-party leads'], out: ['Qualified leads to CRM', 'Routing decisions'] } },
+                    { id: 'profound', title: 'Profound', desc: 'SEO decisioning tool', notes: 'New to Slack — Core & Slack shared', dataFlows: { in: ['SEO data from Ahrefs/SEMrush', 'Content inventory'], out: ['Content optimization decisions', 'Priority recommendations'] } }
+                ]
+            },
+            presentation: {
+                label: 'Presentation',
+                icon: '🎨',
+                color: '#ff6b6b',
+                items: [
+                    { id: 'smc', title: 'Salesforce Marketing Cloud (SMC)', desc: 'Core email execution engine and data extensions', notes: 'Core & Slack shared platform', dataFlows: { in: ['Segments from Data Cloud', 'Campaign triggers from Agentforce', 'Templates'], out: ['Email sends', 'Engagement data to Snowflake', 'Delivery metrics'] } },
+                    { id: 'slack-web', title: 'slack.com (Web)', desc: 'Customer-facing web presence; GA4 + Optimizely for personalization', notes: '', dataFlows: { in: ['CMS content from WordPress', 'Experiments from Optimizely', 'Schema from Schema App'], out: ['Page events to GA4', 'Form fills to CRM', 'Conversion events'] } },
+                    { id: 'rainfocus', title: 'Rainfocus', desc: 'Event management and staffing platform', notes: '', dataFlows: { in: ['Event configs', 'Speaker/session data'], out: ['Registration data to CRM', 'Attendance to Snowflake'] } },
+                    { id: 'on24-present', title: 'ON24', desc: 'Webinar/virtual event presentation platform', notes: 'Core & Slack shared platform', dataFlows: { in: ['Webinar content', 'Registration lists'], out: ['Engagement scores to Data Cloud', 'Recordings', 'Attendee data'] } },
+                    { id: 'yext', title: 'Yext', desc: 'Business listings and knowledge management', notes: 'Core & Slack shared platform', dataFlows: { in: ['Business info updates', 'Location data'], out: ['Listing sync to directories', 'Search analytics'] } },
+                    { id: 'wordpress', title: 'WordPress', desc: 'CMS for web content publishing', notes: 'Same platform, different instance', dataFlows: { in: ['Content from marketing team', 'SEO metadata'], out: ['Published pages to slack.com', 'Content feeds'] } },
+                    { id: 'next-gen-ma', title: 'Next Gen Marketing Automation', desc: 'Marketing automation platform (Marketo replacement)', notes: 'Core & Slack shared platform', dataFlows: { in: ['Lead data from CRM', 'Behavioral triggers', 'Content assets'], out: ['Nurture emails', 'Lead scores to CRM', 'Campaign analytics'] } }
+                ]
+            },
+            channels: {
+                label: 'Channels',
+                icon: '📢',
+                color: '#ff9ff3',
+                items: [
+                    { id: 'ch-email', title: 'Email', desc: 'Salesforce Marketing Cloud (SMC)', notes: '', dataFlows: { in: ['Templates from SMC', 'Audiences from Data Cloud', 'Triggers from Agentforce'], out: ['Engagement data to Snowflake', 'Deliverability metrics'] } },
+                    { id: 'ch-web', title: 'Web / Digital', desc: 'slack.com, landing pages, PLG flows', notes: '', dataFlows: { in: ['CMS content', 'Personalization from Optimizely', 'Qualified chat'], out: ['Conversion events to GA4', 'Form fills to CRM'] } },
+                    { id: 'ch-inapp', title: 'In-App', desc: 'Product-led growth notifications within Slack', notes: '', dataFlows: { in: ['PQL signals from MadKudu', 'Experiment variants'], out: ['Usage events to Snowflake', 'Conversion to MadKudu'] } },
+                    { id: 'ch-paid', title: 'Paid Media', desc: 'Google Ads, Meta, LinkedIn, CM360, Capterra, Teads, OMR, Reddit', notes: '', dataFlows: { in: ['Audiences from LiveRamp/Data Cloud', 'ABM lists from Demandbase'], out: ['Impression/click data to MI', 'Conversion events'] } },
+                    { id: 'ch-events', title: 'Webinar / Virtual Events', desc: 'ON24, Rainfocus', notes: '', dataFlows: { in: ['Event content', 'Promo from email/paid'], out: ['Registration/attendance to CRM', 'Engagement to Data Cloud'] } },
+                    { id: 'ch-affiliate', title: 'Affiliate / Partner', desc: 'Impact', notes: '', dataFlows: { in: ['Partner program config', 'Creative assets'], out: ['Referral conversions to Thrive', 'Commission events'] } }
+                ]
             }
+        };
+
+        // Cross-platform data flows (connections between categories)
+        const crossFlows = [
+            { from: 'snowflake', to: 'looker', label: 'Query results' },
+            { from: 'snowflake', to: 'tableau', label: 'Dashboard data' },
+            { from: 'snowflake', to: 'marketing-intelligence', label: 'Attribution data' },
+            { from: 'data-cloud', to: 'smc', label: 'Audience segments' },
+            { from: 'data-cloud', to: 'agentforce', label: 'Customer signals' },
+            { from: 'data-cloud', to: 'ch-email', label: 'Segment activation' },
+            { from: 'salesforce-crm', to: 'data-cloud', label: 'CRM sync' },
+            { from: 'salesforce-crm', to: 'next-gen-ma', label: 'Lead data' },
+            { from: 'demandbase', to: 'ch-paid', label: 'ABM targeting' },
+            { from: 'liveramp', to: 'ch-paid', label: 'Matched audiences' },
+            { from: 'on24-data', to: 'snowflake', label: 'Event data' },
+            { from: 'leadspace', to: 'data-cloud', label: 'Enriched profiles' },
+            { from: 'clearbit', to: 'salesforce-crm', label: 'Lead enrichment' },
+            { from: 'madkudu', to: 'salesforce-crm', label: 'PQL scores' },
+            { from: 'madkudu', to: 'agentforce', label: 'Lead signals' },
+            { from: 'agentforce', to: 'smc', label: 'Campaign triggers' },
+            { from: 'agentforce', to: 'ch-email', label: 'Automated sends' },
+            { from: 'optimizely', to: 'slack-web', label: 'Experiments' },
+            { from: 'optimizely', to: 'ga4', label: 'Experiment data' },
+            { from: 'ga4', to: 'snowflake', label: 'Web analytics' },
+            { from: 'impact', to: 'thrive', label: 'Partner events' },
+            { from: 'smc', to: 'snowflake', label: 'Email metrics' },
+            { from: 'smc', to: 'ch-email', label: 'Email delivery' },
+            { from: 'wordpress', to: 'slack-web', label: 'Content publish' },
+            { from: 'schema-app', to: 'slack-web', label: 'Schema markup' },
+            { from: 'qualified', to: 'salesforce-crm', label: 'MQL / meetings' },
+            { from: 'integrate', to: 'salesforce-crm', label: 'Qualified leads' },
+            { from: 'profound', to: 'wordpress', label: 'SEO decisions' },
+            { from: 'content-square', to: 'slack-web', label: 'UX insights' },
+            { from: 'marketing-intelligence', to: 'tableau', label: 'Attribution' }
         ];
 
-        const connections = [
-            { from: 'campaign-brief', to: 'orchestrator', label: 'Brief submission' },
-            { from: 'data-cloud', to: 'orchestrator', label: 'Audience data' },
-            { from: 'salesforce', to: 'data-cloud', label: 'CRM sync' },
-            { from: 'salesforce', to: 'orchestrator', label: 'Account context' },
-            { from: 'calendar', to: 'orchestrator', label: 'Schedule context' },
-            { from: 'orchestrator', to: 'ai-engine', label: 'Prompts & context' },
-            { from: 'ai-engine', to: 'orchestrator', label: 'Generated content' },
-            { from: 'orchestrator', to: 'rules-engine', label: 'Draft for validation' },
-            { from: 'rules-engine', to: 'orchestrator', label: 'QA results' },
-            { from: 'orchestrator', to: 'review-ui', label: 'Review package' },
-            { from: 'review-ui', to: 'orchestrator', label: 'Approval/revision' },
-            { from: 'review-ui', to: 'email', label: 'Approved campaign' },
-            { from: 'review-ui', to: 'slack-channel', label: 'Status notifications' },
-            { from: 'orchestrator', to: 'slack-channel', label: 'Alerts & summaries' },
-            { from: 'email', to: 'analytics', label: 'Delivery metrics' },
-            { from: 'slack-channel', to: 'analytics', label: 'Engagement data' },
-            { from: 'analytics', to: 'feedback-loop', label: 'Performance data' },
-            { from: 'feedback-loop', to: 'orchestrator', label: 'Optimization signals' },
-            { from: 'feedback-loop', to: 'rules-engine', label: 'Rule updates' },
-            { from: 'data-cloud', to: 'email', label: 'Segment sync' },
-            { from: 'calendar', to: 'rules-engine', label: 'Blackout dates' },
-            { from: 'campaign-brief', to: 'slack-channel', label: 'Intake notification' },
-            { from: 'email', to: 'feedback-loop', label: 'Campaign results' },
-            { from: 'analytics', to: 'slack-channel', label: 'Performance alerts' }
-        ];
-
-        // Render nodes
-        const grid = document.getElementById('nodes-grid');
-        nodes.forEach(node => {
-            const el = document.createElement('div');
-            el.className = 'node';
-            el.dataset.id = node.id;
-            el.dataset.category = node.category;
-            el.style.setProperty('--node-color', getCategoryColor(node.category));
-            el.innerHTML = `
-                <span class="node-icon">${node.icon}</span>
-                <div class="node-title">${node.title}</div>
-                <div class="node-desc">${node.desc}</div>
-                <span class="node-badge">${node.badge}</span>
-            `;
-            el.addEventListener('click', () => showDetail(node));
-            el.addEventListener('mouseenter', (e) => highlightConnections(node.id, e));
-            el.addEventListener('mouseleave', () => clearHighlights());
-            grid.appendChild(el);
+        // Build all nodes flat list
+        const allNodes = [];
+        Object.entries(platforms).forEach(([cat, data]) => {
+            data.items.forEach(item => {
+                allNodes.push({ ...item, category: cat });
+            });
         });
 
-        function getCategoryColor(cat) {
-            const colors = { source: '#4ecdc4', orchestration: '#6c63ff', channel: '#ff6b6b', analytics: '#ffd93d' };
-            return colors[cat] || '#6c63ff';
-        }
+        // Render category sections
+        const container = document.getElementById('sections-container');
+        Object.entries(platforms).forEach(([catKey, catData]) => {
+            const section = document.createElement('div');
+            section.className = 'category-section';
+            section.dataset.category = catKey;
 
-        // Draw connections
-        function drawConnections() {
-            const svg = document.getElementById('svg-connections');
-            const container = document.querySelector('.canvas-container');
-            const rect = container.getBoundingClientRect();
-            svg.setAttribute('viewBox', `0 0 ${rect.width} ${rect.height}`);
-            svg.innerHTML = '';
+            section.innerHTML = `
+                <div class="category-header">
+                    <span class="cat-icon">${catData.icon}</span>
+                    <h2>${catData.label}</h2>
+                    <span class="platform-count">${catData.items.length} platforms</span>
+                </div>
+                <div class="nodes-grid" id="grid-${catKey}"></div>
+            `;
+            container.appendChild(section);
 
-            connections.forEach((conn, i) => {
-                const fromEl = document.querySelector(`[data-id="${conn.from}"]`);
-                const toEl = document.querySelector(`[data-id="${conn.to}"]`);
-                if (!fromEl || !toEl) return;
+            const grid = section.querySelector('.nodes-grid');
+            catData.items.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'node';
+                el.dataset.id = item.id;
+                el.dataset.category = catKey;
+                el.style.setProperty('--node-color', catData.color);
 
-                const fromRect = fromEl.getBoundingClientRect();
-                const toRect = toEl.getBoundingClientRect();
-                const containerRect = container.getBoundingClientRect();
+                let badges = '';
+                if (item.notes.includes('New to Slack')) badges += `<span class="node-badge new">New</span>`;
+                if (item.notes.includes('retiring') || item.notes.includes('moving to')) badges += `<span class="node-badge warning">Changing</span>`;
+                if (item.notes.includes('shared platform')) badges += `<span class="node-badge">Shared</span>`;
+                if (item.notes.includes('Independent')) badges += `<span class="node-badge">Independent</span>`;
+                if (item.notes.includes('Same platform')) badges += `<span class="node-badge">Multi-instance</span>`;
 
-                const x1 = fromRect.left + fromRect.width / 2 - containerRect.left;
-                const y1 = fromRect.top + fromRect.height / 2 - containerRect.top;
-                const x2 = toRect.left + toRect.width / 2 - containerRect.left;
-                const y2 = toRect.top + toRect.height / 2 - containerRect.top;
-
-                const midX = (x1 + x2) / 2;
-                const midY = (y1 + y2) / 2;
-                const cx = midX + (y2 - y1) * 0.1;
-                const cy = midY - (x2 - x1) * 0.1;
-
-                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                const d = `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`;
-                path.setAttribute('d', d);
-                path.setAttribute('class', 'flow-line');
-                path.dataset.from = conn.from;
-                path.dataset.to = conn.to;
-                path.dataset.label = conn.label;
-                path.id = `path-${i}`;
-                svg.appendChild(path);
+                el.innerHTML = `
+                    <div class="node-title">${item.title}</div>
+                    <div class="node-desc">${item.desc}</div>
+                    <div class="node-badges">${badges}</div>
+                `;
+                el.addEventListener('click', () => showDetail(item, catKey, catData.color));
+                el.addEventListener('mouseenter', () => highlightConnections(item.id));
+                el.addEventListener('mouseleave', clearHighlights);
+                grid.appendChild(el);
             });
-        }
+        });
 
-        // Highlight connections on hover
-        function highlightConnections(nodeId, event) {
-            const allNodes = document.querySelectorAll('.node');
-            const allLines = document.querySelectorAll('.flow-line');
+        // Highlight connections
+        function highlightConnections(nodeId) {
             const connectedIds = new Set([nodeId]);
-
-            connections.forEach(c => {
-                if (c.from === nodeId) connectedIds.add(c.to);
-                if (c.to === nodeId) connectedIds.add(c.from);
+            crossFlows.forEach(f => {
+                if (f.from === nodeId) connectedIds.add(f.to);
+                if (f.to === nodeId) connectedIds.add(f.from);
             });
 
-            allNodes.forEach(n => {
+            document.querySelectorAll('.node').forEach(n => {
                 if (connectedIds.has(n.dataset.id)) {
                     n.classList.add('highlighted');
                     n.classList.remove('dimmed');
@@ -688,59 +702,44 @@
                     n.classList.remove('highlighted');
                 }
             });
-
-            allLines.forEach(line => {
-                if (line.dataset.from === nodeId || line.dataset.to === nodeId) {
-                    line.classList.add('active');
-                    line.classList.remove('dimmed');
-                } else {
-                    line.classList.add('dimmed');
-                    line.classList.remove('active');
-                }
-            });
         }
 
         function clearHighlights() {
             document.querySelectorAll('.node').forEach(n => {
                 n.classList.remove('highlighted', 'dimmed');
             });
-            document.querySelectorAll('.flow-line').forEach(l => {
-                l.classList.remove('active', 'dimmed');
-            });
         }
 
         // Detail panel
-        function showDetail(node) {
+        function showDetail(item, catKey, color) {
             const panel = document.getElementById('detail-panel');
             const content = document.getElementById('panel-content');
-            const color = getCategoryColor(node.category);
+            content.style.setProperty('--panel-color', color);
+
+            const relatedFlows = crossFlows.filter(f => f.from === item.id || f.to === item.id);
 
             content.innerHTML = `
-                <div style="font-size:3rem; margin-bottom:16px;">${node.icon}</div>
-                <h2>${node.title}</h2>
-                <span class="category-tag" style="background:${color}22; color:${color}; border:1px solid ${color}44;">${node.category}</span>
-                <p style="color:#8892b0; margin-top:12px;">${node.desc}</p>
+                <h2>${item.title}</h2>
+                <span class="category-tag" style="background:${color}22; color:${color}; border:1px solid ${color}44;">${platforms[catKey].label}</span>
+                ${item.notes ? `<div style="margin-bottom:12px;"><span class="node-badge ${item.notes.includes('New') ? 'new' : item.notes.includes('retiring') || item.notes.includes('moving') ? 'warning' : ''}" style="font-size:0.75rem;">${item.notes}</span></div>` : ''}
+                <p style="color:#8892b0; font-size:0.9rem; line-height:1.5;">${item.desc}</p>
 
                 <h3>Data Inputs</h3>
-                <ul>${node.details.dataIn.map(d => `<li><div class="data-flow-item"><span class="arrow">&#8594;</span> ${d}</div></li>`).join('')}</ul>
+                <ul>${item.dataFlows.in.map(d => `<li><div class="flow-connection"><span class="dir">&rarr;</span> ${d}</div></li>`).join('')}</ul>
 
                 <h3>Data Outputs</h3>
-                <ul>${node.details.dataOut.map(d => `<li><div class="data-flow-item"><span class="arrow">&#8592;</span> ${d}</div></li>`).join('')}</ul>
+                <ul>${item.dataFlows.out.map(d => `<li><div class="flow-connection"><span class="dir">&larr;</span> ${d}</div></li>`).join('')}</ul>
 
-                <h3>Integrations</h3>
-                <ul>${node.details.integrations.map(d => `<li>${d}</li>`).join('')}</ul>
-
-                <h3>Connected Flows</h3>
-                <ul>
-                    ${connections.filter(c => c.from === node.id || c.to === node.id).map(c => {
-                        const direction = c.from === node.id ? '&#8594;' : '&#8592;';
-                        const other = c.from === node.id ? c.to : c.from;
-                        const otherNode = nodes.find(n => n.id === other);
-                        return `<li><div class="data-flow-item"><span class="arrow">${direction}</span> ${otherNode ? otherNode.title : other}: ${c.label}</div></li>`;
-                    }).join('')}
-                </ul>
+                ${relatedFlows.length ? `
+                    <h3>Cross-Platform Flows</h3>
+                    <ul>${relatedFlows.map(f => {
+                        const isFrom = f.from === item.id;
+                        const otherId = isFrom ? f.to : f.from;
+                        const otherNode = allNodes.find(n => n.id === otherId);
+                        return `<li><div class="flow-connection"><span class="dir">${isFrom ? '&rarr;' : '&larr;'}</span> ${otherNode ? otherNode.title : otherId}: ${f.label}</div></li>`;
+                    }).join('')}</ul>
+                ` : ''}
             `;
-            content.style.setProperty('--node-color', color);
             panel.classList.add('open');
         }
 
@@ -748,100 +747,68 @@
             document.getElementById('detail-panel').classList.remove('open');
         });
 
-        // Filter buttons
-        document.querySelectorAll('.controls button[data-filter]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                const filter = btn.dataset.filter;
-                document.querySelectorAll('.node').forEach(node => {
-                    if (filter === 'all' || node.dataset.category === filter) {
-                        node.style.display = '';
-                    } else {
-                        node.style.display = 'none';
-                    }
-                });
-                setTimeout(drawConnections, 50);
-            });
-        });
-
-        // Animate flow
-        let animating = false;
-        document.getElementById('animate-btn').addEventListener('click', function() {
-            animating = !animating;
-            this.classList.toggle('active', animating);
-            if (animating) startAnimation();
-            else stopAnimation();
-        });
-
-        let animationFrames = [];
-        function startAnimation() {
-            const svg = document.getElementById('svg-connections');
-            const paths = svg.querySelectorAll('.flow-line');
-
-            paths.forEach((path, i) => {
-                const particle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                particle.setAttribute('r', '4');
-                particle.setAttribute('fill', '#6c63ff');
-                particle.setAttribute('filter', 'url(#glow)');
-                particle.classList.add('particle');
-                svg.appendChild(particle);
-
-                const length = path.getTotalLength();
-                let progress = Math.random();
-                const speed = 0.002 + Math.random() * 0.002;
-
-                function animate() {
-                    progress += speed;
-                    if (progress > 1) progress = 0;
-                    const point = path.getPointAtLength(progress * length);
-                    particle.setAttribute('cx', point.x);
-                    particle.setAttribute('cy', point.y);
-                    particle.style.opacity = Math.sin(progress * Math.PI);
-                    if (animating) {
-                        animationFrames.push(requestAnimationFrame(animate));
-                    } else {
-                        particle.remove();
-                    }
-                }
-                animationFrames.push(requestAnimationFrame(animate));
-            });
-
-            // Add SVG filter for glow
-            if (!document.getElementById('glow-filter')) {
-                const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-                defs.id = 'glow-filter';
-                defs.innerHTML = `
-                    <filter id="glow">
-                        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                        <feMerge>
-                            <feMergeNode in="coloredBlur"/>
-                            <feMergeNode in="SourceGraphic"/>
-                        </feMerge>
-                    </filter>
-                `;
-                svg.prepend(defs);
-            }
-        }
-
-        function stopAnimation() {
-            animationFrames.forEach(id => cancelAnimationFrame(id));
-            animationFrames = [];
-            document.querySelectorAll('.particle').forEach(p => p.remove());
-        }
-
-        // Init
-        window.addEventListener('load', () => {
-            setTimeout(drawConnections, 100);
-        });
-        window.addEventListener('resize', drawConnections);
-
-        // Keyboard shortcut
-        document.addEventListener('keydown', (e) => {
+        document.addEventListener('keydown', e => {
             if (e.key === 'Escape') {
                 document.getElementById('detail-panel').classList.remove('open');
+                document.getElementById('flow-overlay').classList.remove('active');
             }
         });
+
+        // Filter
+        document.querySelectorAll('.controls button[data-filter]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.controls button[data-filter]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.dataset.filter;
+                document.querySelectorAll('.category-section').forEach(sec => {
+                    sec.style.display = (filter === 'all' || sec.dataset.category === filter) ? '' : 'none';
+                });
+            });
+        });
+
+        // Search
+        document.getElementById('search').addEventListener('input', function() {
+            const q = this.value.toLowerCase();
+            document.querySelectorAll('.node').forEach(node => {
+                const title = node.querySelector('.node-title').textContent.toLowerCase();
+                const desc = node.querySelector('.node-desc').textContent.toLowerCase();
+                node.style.display = (!q || title.includes(q) || desc.includes(q)) ? '' : 'none';
+            });
+            // Show all sections during search
+            if (q) {
+                document.querySelectorAll('.category-section').forEach(s => s.style.display = '');
+            }
+        });
+
+        // Flow diagram overlay
+        document.getElementById('flow-btn').addEventListener('click', () => {
+            document.getElementById('flow-overlay').classList.add('active');
+            renderFlowDiagram();
+        });
+
+        document.getElementById('close-flow').addEventListener('click', () => {
+            document.getElementById('flow-overlay').classList.remove('active');
+        });
+
+        function renderFlowDiagram() {
+            const diagram = document.getElementById('flow-diagram');
+            const layers = [
+                { key: 'data', label: 'DATA LAYER', color: '#4ecdc4' },
+                { key: 'decisioning', label: 'DECISIONING LAYER', color: '#6c63ff' },
+                { key: 'presentation', label: 'PRESENTATION LAYER', color: '#ff6b6b' },
+                { key: 'channels', label: 'CHANNEL LAYER', color: '#ff9ff3' },
+                { key: 'analytics', label: 'ANALYTICS LAYER', color: '#ffd93d' }
+            ];
+
+            diagram.innerHTML = layers.map((layer, i) => `
+                ${i > 0 ? '<div class="flow-arrow">&#x2193; &#x2193; &#x2193;</div>' : ''}
+                <div class="flow-layer" data-label="${layer.label}" style="--layer-color:${layer.color}; border-color:${layer.color}33;">
+                    ${platforms[layer.key].items.map(item => `
+                        <div class="flow-node" style="border-color:${layer.color}44;">${item.title}</div>
+                    `).join('')}
+                </div>
+            `).join('');
+        }
     </script>
 </body>
 </html>
