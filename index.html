@@ -1160,6 +1160,41 @@
             text-align: center;
         }
 
+        .admin-manage-filter {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .admin-manage-search {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid var(--slack-gray-300);
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-family: inherit;
+            color: var(--slack-dark);
+            background: var(--slack-gray-100);
+        }
+
+        .admin-manage-search:focus {
+            outline: none;
+            border-color: var(--slack-aubergine);
+            background: var(--slack-white);
+            box-shadow: 0 0 0 3px rgba(97, 31, 105, 0.1);
+        }
+
+        .admin-manage-filter select {
+            padding: 10px 14px;
+            border: 1px solid var(--slack-gray-300);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            color: var(--slack-dark);
+            background: var(--slack-gray-100);
+            cursor: pointer;
+        }
+
         .admin-empty {
             text-align: center;
             padding: 40px;
@@ -1198,9 +1233,14 @@
             text-transform: uppercase;
         }
 
+        .admin-platform-item .api-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .admin-platform-item .api-edit,
         .admin-platform-item .api-remove {
             padding: 6px 12px;
-            background: var(--slack-red);
             color: white;
             border: none;
             border-radius: 6px;
@@ -1210,8 +1250,67 @@
             cursor: pointer;
         }
 
+        .admin-platform-item .api-edit {
+            background: var(--slack-aubergine);
+        }
+
+        .admin-platform-item .api-edit:hover {
+            background: var(--slack-aubergine-light);
+        }
+
+        .admin-platform-item .api-remove {
+            background: var(--slack-red);
+        }
+
         .admin-platform-item .api-remove:hover {
             background: #c4174d;
+        }
+
+        .admin-edit-form {
+            display: none;
+            padding: 16px;
+            background: var(--slack-white);
+            border: 1px solid var(--slack-aubergine);
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+        }
+
+        .admin-edit-form.open {
+            display: block;
+        }
+
+        .admin-edit-form .admin-form-row {
+            margin-bottom: 0;
+        }
+
+        .admin-edit-form .edit-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .admin-edit-form .edit-save {
+            padding: 8px 18px;
+            background: var(--slack-green);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .admin-edit-form .edit-cancel {
+            padding: 8px 18px;
+            background: var(--slack-gray-200);
+            color: var(--slack-dark);
+            border: none;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
         }
 
 
@@ -1349,7 +1448,7 @@
 
                 <div class="admin-tabs">
                     <button class="admin-tab active" data-admin-tab="add">Add Platform</button>
-                    <button class="admin-tab" data-admin-tab="manage">Manage Added</button>
+                    <button class="admin-tab" data-admin-tab="manage">Manage All</button>
                 </div>
 
                 <div class="admin-panel" id="admin-add-panel">
@@ -1444,8 +1543,18 @@
                 </div>
 
                 <div class="admin-panel" id="admin-manage-panel" style="display:none;">
+                    <div class="admin-manage-filter">
+                        <input type="text" id="admin-search" placeholder="Search platforms..." class="admin-manage-search">
+                        <select id="admin-cat-filter">
+                            <option value="all">All Categories</option>
+                            <option value="data">Data</option>
+                            <option value="analytics">Analytics</option>
+                            <option value="decisioning">Decisioning</option>
+                            <option value="presentation">Presentation</option>
+                            <option value="channels">Channels</option>
+                        </select>
+                    </div>
                     <div id="admin-platform-list"></div>
-                    <div class="admin-empty" id="admin-empty">No custom platforms added yet.</div>
                 </div>
 
             </div>
@@ -2247,6 +2356,7 @@
 
         // ===== ADMIN =====
         const STORAGE_KEY = 'martech-custom-platforms';
+        const EDITS_KEY = 'martech-platform-edits';
 
         function getCustomPlatforms() {
             try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
@@ -2257,18 +2367,94 @@
             localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
         }
 
-        // Load custom platforms on page load
+        function getPlatformEdits() {
+            try { return JSON.parse(localStorage.getItem(EDITS_KEY)) || {}; }
+            catch { return {}; }
+        }
+
+        function savePlatformEdits(edits) {
+            localStorage.setItem(EDITS_KEY, JSON.stringify(edits));
+        }
+
+        function applyPlatformEdits() {
+            const edits = getPlatformEdits();
+            Object.entries(edits).forEach(([id, changes]) => {
+                Object.entries(platforms).forEach(([catKey, catData]) => {
+                    const item = catData.items.find(i => i.id === id);
+                    if (item) {
+                        if (changes.title) item.title = changes.title;
+                        if (changes.icon) item.icon = changes.icon;
+                        if (changes.desc) item.desc = changes.desc;
+                        if (changes.notes !== undefined) item.notes = changes.notes;
+                        if (changes.flowsIn) item.dataFlows.in = changes.flowsIn;
+                        if (changes.flowsOut) item.dataFlows.out = changes.flowsOut;
+                    }
+                });
+                const node = allNodes.find(n => n.id === id);
+                if (node) {
+                    if (changes.title) node.title = changes.title;
+                    if (changes.icon) node.icon = changes.icon;
+                    if (changes.desc) node.desc = changes.desc;
+                    if (changes.notes !== undefined) node.notes = changes.notes;
+                    if (changes.flowsIn) node.dataFlows.in = changes.flowsIn;
+                    if (changes.flowsOut) node.dataFlows.out = changes.flowsOut;
+                }
+            });
+        }
+
         function loadCustomPlatforms() {
             const custom = getCustomPlatforms();
             custom.forEach(p => addPlatformToApp(p));
+            applyPlatformEdits();
             updatePlatformCount();
+            refreshCardView();
+        }
+
+        function refreshCardView() {
+            document.querySelectorAll('.category-section').forEach(sec => sec.remove());
+            Object.entries(platforms).forEach(([catKey, catData]) => {
+                const section = document.createElement('div');
+                section.className = 'category-section';
+                section.dataset.category = catKey;
+                section.innerHTML = `
+                    <div class="category-header">
+                        <span class="cat-icon" style="background:${catData.colorHex}18; color:${catData.colorHex};">${catData.icon}</span>
+                        <h2>${catData.label}</h2>
+                        <span class="platform-count">${catData.items.length} platforms</span>
+                    </div>
+                    <div class="nodes-grid"></div>
+                `;
+                sectionsContainer.appendChild(section);
+                const grid = section.querySelector('.nodes-grid');
+                catData.items.forEach(item => {
+                    const el = document.createElement('div');
+                    el.className = 'node-card';
+                    el.dataset.id = item.id;
+                    el.dataset.category = catKey;
+                    let badges = '';
+                    if (item.notes && item.notes.includes('New to Slack')) badges += `<span class="node-badge status-new">New</span>`;
+                    if (item.notes && (item.notes.includes('retiring') || item.notes.includes('moving'))) badges += `<span class="node-badge status-warning">Changing</span>`;
+                    if (item.notes && item.notes.includes('shared')) badges += `<span class="node-badge status-shared">Shared</span>`;
+                    if (item.notes && item.notes.includes('Independent')) badges += `<span class="node-badge status-default">Independent</span>`;
+                    if (item.notes && item.notes.includes('Same platform')) badges += `<span class="node-badge status-default">Multi-instance</span>`;
+                    const isCustom = getCustomPlatforms().find(p => p.id === item.id);
+                    if (isCustom) badges += `<span class="node-badge status-new">Custom</span>`;
+                    el.innerHTML = `
+                        <div class="node-title">${item.title}</div>
+                        <div class="node-desc">${item.desc}</div>
+                        ${badges ? `<div class="node-badges">${badges}</div>` : ''}
+                    `;
+                    el.addEventListener('click', () => openPanel(item, catKey, catData.colorHex));
+                    el.addEventListener('mouseenter', () => highlightCards(item.id));
+                    el.addEventListener('mouseleave', clearCardHighlights);
+                    grid.appendChild(el);
+                });
+            });
         }
 
         function addPlatformToApp(p) {
             const cat = p.category;
             if (!platforms[cat]) return;
-
-            // Check if already exists
             if (platforms[cat].items.find(i => i.id === p.id)) return;
 
             const item = {
@@ -2277,42 +2463,10 @@
                 icon: p.icon || '📦',
                 desc: p.desc,
                 notes: p.notes || '',
-                dataFlows: {
-                    in: p.flowsIn || [],
-                    out: p.flowsOut || []
-                }
+                dataFlows: { in: p.flowsIn || [], out: p.flowsOut || [] }
             };
-
             platforms[cat].items.push(item);
             allNodes.push({ ...item, category: cat });
-
-            // Add card to DOM
-            const section = document.querySelector(`.category-section[data-category="${cat}"]`);
-            if (section) {
-                const grid = section.querySelector('.nodes-grid');
-                const countEl = section.querySelector('.platform-count');
-                const el = document.createElement('div');
-                el.className = 'node-card';
-                el.dataset.id = item.id;
-                el.dataset.category = cat;
-                let badges = '';
-                if (item.notes.includes('New to Slack')) badges += `<span class="node-badge status-new">New</span>`;
-                if (item.notes.includes('retiring') || item.notes.includes('moving')) badges += `<span class="node-badge status-warning">Changing</span>`;
-                if (item.notes.includes('shared')) badges += `<span class="node-badge status-shared">Shared</span>`;
-                if (item.notes.includes('Independent')) badges += `<span class="node-badge status-default">Independent</span>`;
-                if (item.notes.includes('Same platform')) badges += `<span class="node-badge status-default">Multi-instance</span>`;
-                badges += `<span class="node-badge status-new">Custom</span>`;
-                el.innerHTML = `
-                    <div class="node-title">${item.title}</div>
-                    <div class="node-desc">${item.desc}</div>
-                    <div class="node-badges">${badges}</div>
-                `;
-                el.addEventListener('click', () => openPanel(item, cat, platforms[cat].colorHex));
-                el.addEventListener('mouseenter', () => highlightCards(item.id));
-                el.addEventListener('mouseleave', clearCardHighlights);
-                grid.appendChild(el);
-                if (countEl) countEl.textContent = `${platforms[cat].items.length} platforms`;
-            }
         }
 
         function updatePlatformCount() {
@@ -2328,18 +2482,15 @@
             custom = custom.filter(p => p.id !== id);
             saveCustomPlatforms(custom);
 
-            // Remove from platforms data
             Object.values(platforms).forEach(cat => {
                 cat.items = cat.items.filter(i => i.id !== id);
             });
             const nodeIdx = allNodes.findIndex(n => n.id === id);
             if (nodeIdx > -1) allNodes.splice(nodeIdx, 1);
 
-            // Remove from DOM
             const card = document.querySelector(`.node-card[data-id="${id}"]`);
             if (card) card.remove();
 
-            // Update counts
             document.querySelectorAll('.category-section').forEach(sec => {
                 const cat = sec.dataset.category;
                 const countEl = sec.querySelector('.platform-count');
@@ -2347,6 +2498,51 @@
             });
             updatePlatformCount();
             renderManageList();
+        }
+
+        function editPlatform(id, changes) {
+            const isCustom = getCustomPlatforms().find(p => p.id === id);
+
+            if (isCustom) {
+                let custom = getCustomPlatforms();
+                custom = custom.map(p => p.id === id ? { ...p, ...changes } : p);
+                saveCustomPlatforms(custom);
+            } else {
+                const edits = getPlatformEdits();
+                edits[id] = { ...(edits[id] || {}), ...changes };
+                savePlatformEdits(edits);
+            }
+
+            // Update in-memory
+            Object.entries(platforms).forEach(([catKey, catData]) => {
+                const item = catData.items.find(i => i.id === id);
+                if (item) {
+                    if (changes.title) item.title = changes.title;
+                    if (changes.icon) item.icon = changes.icon;
+                    if (changes.desc) item.desc = changes.desc;
+                    if (changes.notes !== undefined) item.notes = changes.notes;
+                    if (changes.flowsIn) item.dataFlows.in = changes.flowsIn;
+                    if (changes.flowsOut) item.dataFlows.out = changes.flowsOut;
+                }
+            });
+            const node = allNodes.find(n => n.id === id);
+            if (node) {
+                if (changes.title) node.title = changes.title;
+                if (changes.icon) node.icon = changes.icon;
+                if (changes.desc) node.desc = changes.desc;
+                if (changes.notes !== undefined) node.notes = changes.notes;
+                if (changes.flowsIn) node.dataFlows.in = changes.flowsIn;
+                if (changes.flowsOut) node.dataFlows.out = changes.flowsOut;
+            }
+
+            // Refresh the card
+            const card = document.querySelector(`.node-card[data-id="${id}"]`);
+            if (card) {
+                const titleEl = card.querySelector('.node-title');
+                const descEl = card.querySelector('.node-desc');
+                if (changes.title && titleEl) titleEl.textContent = changes.title;
+                if (changes.desc && descEl) descEl.textContent = changes.desc;
+            }
         }
 
         // Admin UI
@@ -2359,7 +2555,6 @@
             document.getElementById('admin-overlay').classList.remove('active');
         });
 
-        // Admin tabs
         document.querySelectorAll('.admin-tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
@@ -2386,51 +2581,110 @@
             const leadDetail = document.getElementById('ap-lead-detail').value.trim();
 
             const id = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-
             const platform = { id, title, icon, category, notes, desc, flowsIn, flowsOut, plgStage, entStage, leadRole, leadDetail };
 
-            // Save
             const custom = getCustomPlatforms();
             custom.push(platform);
             saveCustomPlatforms(custom);
 
-            // Add to app
             addPlatformToApp(platform);
             updatePlatformCount();
+            refreshCardView();
 
-            // Success feedback
             const successEl = document.getElementById('admin-success');
             successEl.style.display = 'block';
             setTimeout(() => { successEl.style.display = 'none'; }, 3000);
-
-            // Reset form
             e.target.reset();
         });
 
-        function renderManageList() {
-            const custom = getCustomPlatforms();
-            const list = document.getElementById('admin-platform-list');
-            const empty = document.getElementById('admin-empty');
+        // Manage list with search and filter
+        document.getElementById('admin-search').addEventListener('input', renderManageList);
+        document.getElementById('admin-cat-filter').addEventListener('change', renderManageList);
 
-            if (custom.length === 0) {
-                list.innerHTML = '';
-                empty.style.display = '';
-                return;
+        function renderManageList() {
+            const list = document.getElementById('admin-platform-list');
+            const search = document.getElementById('admin-search').value.toLowerCase();
+            const catFilter = document.getElementById('admin-cat-filter').value;
+            const customIds = new Set(getCustomPlatforms().map(p => p.id));
+
+            let items = [];
+            Object.entries(platforms).forEach(([catKey, catData]) => {
+                catData.items.forEach(item => {
+                    items.push({ ...item, category: catKey, isCustom: customIds.has(item.id) });
+                });
+            });
+
+            if (search) {
+                items = items.filter(i => i.title.toLowerCase().includes(search) || i.desc.toLowerCase().includes(search));
+            }
+            if (catFilter !== 'all') {
+                items = items.filter(i => i.category === catFilter);
             }
 
-            empty.style.display = 'none';
-            list.innerHTML = custom.map(p => `
-                <div class="admin-platform-item">
-                    <span class="api-icon">${p.icon || '📦'}</span>
+            list.innerHTML = items.map(p => `
+                <div class="admin-platform-item" data-id="${p.id}">
+                    <span class="api-icon">${p.icon}</span>
                     <div class="api-info">
                         <h4>${p.title}</h4>
-                        <span>${p.category}</span>
+                        <span>${p.category}${p.isCustom ? ' · custom' : ''}</span>
                     </div>
-                    <button class="api-remove" onclick="removePlatform('${p.id}')">Remove</button>
+                    <div class="api-actions">
+                        <button class="api-edit" onclick="toggleEditForm('${p.id}')">Edit</button>
+                        ${p.isCustom ? `<button class="api-remove" onclick="removePlatform('${p.id}')">Remove</button>` : ''}
+                    </div>
+                </div>
+                <div class="admin-edit-form" id="edit-form-${p.id}">
+                    <div class="admin-form-row">
+                        <div class="admin-field">
+                            <label>Name</label>
+                            <input type="text" id="edit-title-${p.id}" value="${p.title.replace(/"/g, '&quot;')}">
+                        </div>
+                        <div class="admin-field">
+                            <label>Icon</label>
+                            <input type="text" id="edit-icon-${p.id}" value="${p.icon}" maxlength="4">
+                        </div>
+                    </div>
+                    <div class="admin-field">
+                        <label>Description</label>
+                        <input type="text" id="edit-desc-${p.id}" value="${p.desc.replace(/"/g, '&quot;')}">
+                    </div>
+                    <div class="admin-field">
+                        <label>Notes</label>
+                        <input type="text" id="edit-notes-${p.id}" value="${(p.notes || '').replace(/"/g, '&quot;')}">
+                    </div>
+                    <div class="admin-field">
+                        <label>Data Inputs (comma-separated)</label>
+                        <input type="text" id="edit-in-${p.id}" value="${p.dataFlows.in.join(', ')}">
+                    </div>
+                    <div class="admin-field">
+                        <label>Data Outputs (comma-separated)</label>
+                        <input type="text" id="edit-out-${p.id}" value="${p.dataFlows.out.join(', ')}">
+                    </div>
+                    <div class="edit-actions">
+                        <button class="edit-save" onclick="saveEdit('${p.id}')">Save Changes</button>
+                        <button class="edit-cancel" onclick="toggleEditForm('${p.id}')">Cancel</button>
+                    </div>
                 </div>
             `).join('');
         }
 
+        function toggleEditForm(id) {
+            const form = document.getElementById(`edit-form-${id}`);
+            if (form) form.classList.toggle('open');
+        }
+
+        function saveEdit(id) {
+            const title = document.getElementById(`edit-title-${id}`).value.trim();
+            const icon = document.getElementById(`edit-icon-${id}`).value.trim();
+            const desc = document.getElementById(`edit-desc-${id}`).value.trim();
+            const notes = document.getElementById(`edit-notes-${id}`).value.trim();
+            const flowsIn = document.getElementById(`edit-in-${id}`).value.split(',').map(s => s.trim()).filter(Boolean);
+            const flowsOut = document.getElementById(`edit-out-${id}`).value.split(',').map(s => s.trim()).filter(Boolean);
+
+            editPlatform(id, { title, icon, desc, notes, flowsIn, flowsOut });
+            toggleEditForm(id);
+            renderManageList();
+        }
 
         // Escape closes admin
         document.addEventListener('keydown', e => {
