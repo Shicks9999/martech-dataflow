@@ -1003,6 +1003,237 @@
             }
         }
 
+        /* ===== ADMIN ===== */
+        .controls .admin-btn {
+            background: var(--slack-dark);
+            border-color: var(--slack-dark);
+            color: var(--slack-white);
+        }
+
+        .controls .admin-btn:hover {
+            background: var(--slack-gray-900);
+            border-color: var(--slack-gray-900);
+            color: var(--slack-white);
+        }
+
+        .admin-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .admin-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .admin-header h2 {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--slack-dark);
+            margin-bottom: 8px;
+        }
+
+        .admin-header p {
+            color: var(--slack-gray-700);
+            font-size: 0.9rem;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 24px;
+            background: var(--slack-gray-100);
+            border-radius: 100px;
+            padding: 4px;
+        }
+
+        .admin-tab {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 100px;
+            background: transparent;
+            color: var(--slack-gray-700);
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .admin-tab.active {
+            background: var(--slack-white);
+            color: var(--slack-dark);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .admin-panel {
+            background: var(--slack-white);
+            border: 1px solid var(--slack-gray-200);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+        }
+
+        .admin-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .admin-field {
+            margin-bottom: 18px;
+        }
+
+        .admin-field label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--slack-dark);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .admin-field input,
+        .admin-field select,
+        .admin-field textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--slack-gray-300);
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-family: inherit;
+            color: var(--slack-dark);
+            background: var(--slack-gray-100);
+            transition: all 0.2s;
+        }
+
+        .admin-field input:focus,
+        .admin-field select:focus,
+        .admin-field textarea:focus {
+            outline: none;
+            border-color: var(--slack-aubergine);
+            background: var(--slack-white);
+            box-shadow: 0 0 0 3px rgba(97, 31, 105, 0.1);
+        }
+
+        .admin-section-title {
+            font-size: 0.75rem;
+            font-weight: 900;
+            color: var(--slack-gray-500);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 24px 0 14px;
+            padding-top: 18px;
+            border-top: 1px solid var(--slack-gray-200);
+        }
+
+        .admin-submit {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: var(--slack-aubergine-dark);
+            color: var(--slack-white);
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+
+        .admin-submit:hover {
+            background: var(--slack-aubergine);
+        }
+
+        .admin-success {
+            padding: 14px 18px;
+            background: rgba(46, 182, 125, 0.1);
+            border: 1px solid rgba(46, 182, 125, 0.3);
+            border-radius: 8px;
+            color: #1a8a5c;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-top: 16px;
+            text-align: center;
+        }
+
+        .admin-empty {
+            text-align: center;
+            padding: 40px;
+            color: var(--slack-gray-500);
+            font-size: 0.9rem;
+        }
+
+        .admin-platform-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            border: 1px solid var(--slack-gray-200);
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            background: var(--slack-gray-100);
+        }
+
+        .admin-platform-item .api-icon {
+            font-size: 1.4rem;
+        }
+
+        .admin-platform-item .api-info {
+            flex: 1;
+        }
+
+        .admin-platform-item .api-info h4 {
+            font-size: 0.88rem;
+            font-weight: 900;
+            color: var(--slack-dark);
+        }
+
+        .admin-platform-item .api-info span {
+            font-size: 0.75rem;
+            color: var(--slack-gray-500);
+            text-transform: uppercase;
+        }
+
+        .admin-platform-item .api-remove {
+            padding: 6px 12px;
+            background: var(--slack-red);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .admin-platform-item .api-remove:hover {
+            background: #c4174d;
+        }
+
+        #admin-export-json {
+            width: 100%;
+            height: 300px;
+            font-family: monospace;
+            font-size: 0.78rem;
+            padding: 14px;
+            border: 1px solid var(--slack-gray-300);
+            border-radius: 8px;
+            background: var(--slack-gray-100);
+            color: var(--slack-dark);
+            resize: vertical;
+            margin-bottom: 12px;
+        }
+
+        .admin-export-desc {
+            font-size: 0.85rem;
+            color: var(--slack-gray-700);
+            margin-bottom: 14px;
+        }
+
         /* Card view wrapper */
         .card-view { display: block; }
         .card-view.hidden { display: none; }
@@ -1047,6 +1278,8 @@
         <button class="view-btn" id="network-btn">Network Map</button>
         <button class="view-btn" id="flow-btn">Layer Diagram</button>
         <button class="view-btn" id="lead-flow-btn">Lead Flow</button>
+        <div class="separator"></div>
+        <button class="admin-btn" id="admin-btn">+ Admin</button>
     </div>
 
     <!-- CARD VIEW -->
@@ -1120,6 +1353,127 @@
         <button class="close-flow" id="close-lead-flow">Close Lead Flow</button>
         <div class="flow-canvas">
             <div class="lead-flow-container" id="lead-flow-container"></div>
+        </div>
+    </div>
+
+    <!-- ADMIN OVERLAY -->
+    <div class="flow-overlay" id="admin-overlay">
+        <button class="close-flow" id="close-admin">Close Admin</button>
+        <div class="flow-canvas">
+            <div class="admin-container" id="admin-container">
+                <div class="admin-header">
+                    <h2>Admin: Manage Platforms</h2>
+                    <p>Add new platforms or remove ones you've added. Changes are saved to your browser.</p>
+                </div>
+
+                <div class="admin-tabs">
+                    <button class="admin-tab active" data-admin-tab="add">Add Platform</button>
+                    <button class="admin-tab" data-admin-tab="manage">Manage Added</button>
+                    <button class="admin-tab" data-admin-tab="export">Export</button>
+                </div>
+
+                <div class="admin-panel" id="admin-add-panel">
+                    <form id="add-platform-form">
+                        <div class="admin-form-row">
+                            <div class="admin-field">
+                                <label>Platform Name *</label>
+                                <input type="text" id="ap-title" placeholder="e.g. HubSpot" required>
+                            </div>
+                            <div class="admin-field">
+                                <label>Icon (emoji)</label>
+                                <input type="text" id="ap-icon" placeholder="e.g. 🔧" maxlength="4">
+                            </div>
+                        </div>
+                        <div class="admin-form-row">
+                            <div class="admin-field">
+                                <label>Category *</label>
+                                <select id="ap-category" required>
+                                    <option value="">Select...</option>
+                                    <option value="data">Data</option>
+                                    <option value="analytics">Analytics</option>
+                                    <option value="decisioning">Decisioning</option>
+                                    <option value="presentation">Presentation</option>
+                                    <option value="channels">Channels</option>
+                                </select>
+                            </div>
+                            <div class="admin-field">
+                                <label>Notes / Status</label>
+                                <select id="ap-notes">
+                                    <option value="">None</option>
+                                    <option value="New to Slack">New to Slack</option>
+                                    <option value="Core & Slack shared platform">Core & Slack shared</option>
+                                    <option value="Same platform, different instance">Multi-instance</option>
+                                    <option value="Independent tool">Independent tool</option>
+                                    <option value="Core moving">Changing / Migrating</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="admin-field">
+                            <label>Description *</label>
+                            <input type="text" id="ap-desc" placeholder="Brief description of what this platform does" required>
+                        </div>
+                        <div class="admin-field">
+                            <label>Data Inputs (comma-separated)</label>
+                            <input type="text" id="ap-flows-in" placeholder="e.g. Lead data, CRM events, API calls">
+                        </div>
+                        <div class="admin-field">
+                            <label>Data Outputs (comma-separated)</label>
+                            <input type="text" id="ap-flows-out" placeholder="e.g. Enriched profiles, Scores to CRM">
+                        </div>
+
+                        <h3 class="admin-section-title">Lead Flow Placement (optional)</h3>
+                        <div class="admin-form-row">
+                            <div class="admin-field">
+                                <label>PLG Stage</label>
+                                <select id="ap-plg-stage">
+                                    <option value="">Not in PLG flow</option>
+                                    <option value="plg-acquisition">Acquisition</option>
+                                    <option value="plg-activation">Activation & Usage</option>
+                                    <option value="plg-scoring">PQL Scoring</option>
+                                    <option value="plg-nurture">Self-Serve Nurture</option>
+                                    <option value="plg-conversion">Conversion & Expansion</option>
+                                </select>
+                            </div>
+                            <div class="admin-field">
+                                <label>Enterprise Stage</label>
+                                <select id="ap-ent-stage">
+                                    <option value="">Not in Enterprise flow</option>
+                                    <option value="ent-generation">Demand Generation</option>
+                                    <option value="ent-enrichment">Enrichment & ABM</option>
+                                    <option value="ent-scoring">MQL Scoring & Qualification</option>
+                                    <option value="ent-routing">Routing & Sales Handoff</option>
+                                    <option value="ent-nurture">Enterprise Nurture</option>
+                                    <option value="ent-conversion">Pipeline & Attribution</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="admin-field">
+                            <label>Role in Lead Flow</label>
+                            <input type="text" id="ap-lead-role" placeholder="e.g. Lead scoring engine">
+                        </div>
+                        <div class="admin-field">
+                            <label>Lead Flow Detail</label>
+                            <input type="text" id="ap-lead-detail" placeholder="Detailed description of role in lead flow">
+                        </div>
+
+                        <button type="submit" class="admin-submit">Add Platform</button>
+                    </form>
+                    <div class="admin-success" id="admin-success" style="display:none;">
+                        <span>Platform added successfully!</span>
+                    </div>
+                </div>
+
+                <div class="admin-panel" id="admin-manage-panel" style="display:none;">
+                    <div id="admin-platform-list"></div>
+                    <div class="admin-empty" id="admin-empty">No custom platforms added yet.</div>
+                </div>
+
+                <div class="admin-panel" id="admin-export-panel" style="display:none;">
+                    <p class="admin-export-desc">Copy this JSON to permanently add your platforms to the source code.</p>
+                    <textarea id="admin-export-json" readonly></textarea>
+                    <button class="admin-submit" id="admin-copy-btn">Copy to Clipboard</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1915,6 +2269,218 @@
             const stage = header.parentElement;
             stage.classList.toggle('open');
         }
+
+        // ===== ADMIN =====
+        const STORAGE_KEY = 'martech-custom-platforms';
+
+        function getCustomPlatforms() {
+            try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+            catch { return []; }
+        }
+
+        function saveCustomPlatforms(list) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+        }
+
+        // Load custom platforms on page load
+        function loadCustomPlatforms() {
+            const custom = getCustomPlatforms();
+            custom.forEach(p => addPlatformToApp(p));
+            updatePlatformCount();
+        }
+
+        function addPlatformToApp(p) {
+            const cat = p.category;
+            if (!platforms[cat]) return;
+
+            // Check if already exists
+            if (platforms[cat].items.find(i => i.id === p.id)) return;
+
+            const item = {
+                id: p.id,
+                title: p.title,
+                icon: p.icon || '📦',
+                desc: p.desc,
+                notes: p.notes || '',
+                dataFlows: {
+                    in: p.flowsIn || [],
+                    out: p.flowsOut || []
+                }
+            };
+
+            platforms[cat].items.push(item);
+            allNodes.push({ ...item, category: cat });
+
+            // Add card to DOM
+            const section = document.querySelector(`.category-section[data-category="${cat}"]`);
+            if (section) {
+                const grid = section.querySelector('.nodes-grid');
+                const countEl = section.querySelector('.platform-count');
+                const el = document.createElement('div');
+                el.className = 'node-card';
+                el.dataset.id = item.id;
+                el.dataset.category = cat;
+                let badges = '';
+                if (item.notes.includes('New to Slack')) badges += `<span class="node-badge status-new">New</span>`;
+                if (item.notes.includes('retiring') || item.notes.includes('moving')) badges += `<span class="node-badge status-warning">Changing</span>`;
+                if (item.notes.includes('shared')) badges += `<span class="node-badge status-shared">Shared</span>`;
+                if (item.notes.includes('Independent')) badges += `<span class="node-badge status-default">Independent</span>`;
+                if (item.notes.includes('Same platform')) badges += `<span class="node-badge status-default">Multi-instance</span>`;
+                badges += `<span class="node-badge status-new">Custom</span>`;
+                el.innerHTML = `
+                    <div class="node-title">${item.title}</div>
+                    <div class="node-desc">${item.desc}</div>
+                    <div class="node-badges">${badges}</div>
+                `;
+                el.addEventListener('click', () => openPanel(item, cat, platforms[cat].colorHex));
+                el.addEventListener('mouseenter', () => highlightCards(item.id));
+                el.addEventListener('mouseleave', clearCardHighlights);
+                grid.appendChild(el);
+                if (countEl) countEl.textContent = `${platforms[cat].items.length} platforms`;
+            }
+        }
+
+        function updatePlatformCount() {
+            const total = Object.values(platforms).reduce((sum, cat) => sum + cat.items.length, 0);
+            const filterBtn = document.querySelector('.controls button[data-filter="all"]');
+            if (filterBtn) filterBtn.textContent = `All (${total})`;
+            const statEl = document.querySelector('.stat-value');
+            if (statEl) statEl.textContent = total;
+        }
+
+        function removePlatform(id) {
+            let custom = getCustomPlatforms();
+            custom = custom.filter(p => p.id !== id);
+            saveCustomPlatforms(custom);
+
+            // Remove from platforms data
+            Object.values(platforms).forEach(cat => {
+                cat.items = cat.items.filter(i => i.id !== id);
+            });
+            const nodeIdx = allNodes.findIndex(n => n.id === id);
+            if (nodeIdx > -1) allNodes.splice(nodeIdx, 1);
+
+            // Remove from DOM
+            const card = document.querySelector(`.node-card[data-id="${id}"]`);
+            if (card) card.remove();
+
+            // Update counts
+            document.querySelectorAll('.category-section').forEach(sec => {
+                const cat = sec.dataset.category;
+                const countEl = sec.querySelector('.platform-count');
+                if (countEl) countEl.textContent = `${platforms[cat].items.length} platforms`;
+            });
+            updatePlatformCount();
+            renderManageList();
+        }
+
+        // Admin UI
+        document.getElementById('admin-btn').addEventListener('click', () => {
+            document.getElementById('admin-overlay').classList.add('active');
+            renderManageList();
+            renderExport();
+        });
+
+        document.getElementById('close-admin').addEventListener('click', () => {
+            document.getElementById('admin-overlay').classList.remove('active');
+        });
+
+        // Admin tabs
+        document.querySelectorAll('.admin-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById('admin-add-panel').style.display = tab.dataset.adminTab === 'add' ? '' : 'none';
+                document.getElementById('admin-manage-panel').style.display = tab.dataset.adminTab === 'manage' ? '' : 'none';
+                document.getElementById('admin-export-panel').style.display = tab.dataset.adminTab === 'export' ? '' : 'none';
+                if (tab.dataset.adminTab === 'manage') renderManageList();
+                if (tab.dataset.adminTab === 'export') renderExport();
+            });
+        });
+
+        // Add platform form
+        document.getElementById('add-platform-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const title = document.getElementById('ap-title').value.trim();
+            const icon = document.getElementById('ap-icon').value.trim() || '📦';
+            const category = document.getElementById('ap-category').value;
+            const notes = document.getElementById('ap-notes').value;
+            const desc = document.getElementById('ap-desc').value.trim();
+            const flowsIn = document.getElementById('ap-flows-in').value.split(',').map(s => s.trim()).filter(Boolean);
+            const flowsOut = document.getElementById('ap-flows-out').value.split(',').map(s => s.trim()).filter(Boolean);
+            const plgStage = document.getElementById('ap-plg-stage').value;
+            const entStage = document.getElementById('ap-ent-stage').value;
+            const leadRole = document.getElementById('ap-lead-role').value.trim();
+            const leadDetail = document.getElementById('ap-lead-detail').value.trim();
+
+            const id = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+            const platform = { id, title, icon, category, notes, desc, flowsIn, flowsOut, plgStage, entStage, leadRole, leadDetail };
+
+            // Save
+            const custom = getCustomPlatforms();
+            custom.push(platform);
+            saveCustomPlatforms(custom);
+
+            // Add to app
+            addPlatformToApp(platform);
+            updatePlatformCount();
+
+            // Success feedback
+            const successEl = document.getElementById('admin-success');
+            successEl.style.display = 'block';
+            setTimeout(() => { successEl.style.display = 'none'; }, 3000);
+
+            // Reset form
+            e.target.reset();
+        });
+
+        function renderManageList() {
+            const custom = getCustomPlatforms();
+            const list = document.getElementById('admin-platform-list');
+            const empty = document.getElementById('admin-empty');
+
+            if (custom.length === 0) {
+                list.innerHTML = '';
+                empty.style.display = '';
+                return;
+            }
+
+            empty.style.display = 'none';
+            list.innerHTML = custom.map(p => `
+                <div class="admin-platform-item">
+                    <span class="api-icon">${p.icon || '📦'}</span>
+                    <div class="api-info">
+                        <h4>${p.title}</h4>
+                        <span>${p.category}</span>
+                    </div>
+                    <button class="api-remove" onclick="removePlatform('${p.id}')">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        function renderExport() {
+            const custom = getCustomPlatforms();
+            document.getElementById('admin-export-json').value = JSON.stringify(custom, null, 2);
+        }
+
+        document.getElementById('admin-copy-btn').addEventListener('click', () => {
+            const textarea = document.getElementById('admin-export-json');
+            textarea.select();
+            navigator.clipboard.writeText(textarea.value);
+            document.getElementById('admin-copy-btn').textContent = 'Copied!';
+            setTimeout(() => { document.getElementById('admin-copy-btn').textContent = 'Copy to Clipboard'; }, 2000);
+        });
+
+        // Escape closes admin
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                document.getElementById('admin-overlay').classList.remove('active');
+            }
+        });
+
+        // Load custom platforms on startup
+        loadCustomPlatforms();
     </script>
 </body>
 </html>
