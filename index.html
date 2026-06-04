@@ -1214,25 +1214,6 @@
             background: #c4174d;
         }
 
-        #admin-export-json {
-            width: 100%;
-            height: 300px;
-            font-family: monospace;
-            font-size: 0.78rem;
-            padding: 14px;
-            border: 1px solid var(--slack-gray-300);
-            border-radius: 8px;
-            background: var(--slack-gray-100);
-            color: var(--slack-dark);
-            resize: vertical;
-            margin-bottom: 12px;
-        }
-
-        .admin-export-desc {
-            font-size: 0.85rem;
-            color: var(--slack-gray-700);
-            margin-bottom: 14px;
-        }
 
         /* Card view wrapper */
         .card-view { display: block; }
@@ -1369,7 +1350,6 @@
                 <div class="admin-tabs">
                     <button class="admin-tab active" data-admin-tab="add">Add Platform</button>
                     <button class="admin-tab" data-admin-tab="manage">Manage Added</button>
-                    <button class="admin-tab" data-admin-tab="export">Export</button>
                 </div>
 
                 <div class="admin-panel" id="admin-add-panel">
@@ -1468,11 +1448,6 @@
                     <div class="admin-empty" id="admin-empty">No custom platforms added yet.</div>
                 </div>
 
-                <div class="admin-panel" id="admin-export-panel" style="display:none;">
-                    <p class="admin-export-desc">Copy this JSON to permanently add your platforms to the source code.</p>
-                    <textarea id="admin-export-json" readonly></textarea>
-                    <button class="admin-submit" id="admin-copy-btn">Copy to Clipboard</button>
-                </div>
             </div>
         </div>
     </div>
@@ -2378,7 +2353,6 @@
         document.getElementById('admin-btn').addEventListener('click', () => {
             document.getElementById('admin-overlay').classList.add('active');
             renderManageList();
-            renderExport();
         });
 
         document.getElementById('close-admin').addEventListener('click', () => {
@@ -2392,9 +2366,7 @@
                 tab.classList.add('active');
                 document.getElementById('admin-add-panel').style.display = tab.dataset.adminTab === 'add' ? '' : 'none';
                 document.getElementById('admin-manage-panel').style.display = tab.dataset.adminTab === 'manage' ? '' : 'none';
-                document.getElementById('admin-export-panel').style.display = tab.dataset.adminTab === 'export' ? '' : 'none';
                 if (tab.dataset.adminTab === 'manage') renderManageList();
-                if (tab.dataset.adminTab === 'export') renderExport();
             });
         });
 
@@ -2459,18 +2431,6 @@
             `).join('');
         }
 
-        function renderExport() {
-            const custom = getCustomPlatforms();
-            document.getElementById('admin-export-json').value = JSON.stringify(custom, null, 2);
-        }
-
-        document.getElementById('admin-copy-btn').addEventListener('click', () => {
-            const textarea = document.getElementById('admin-export-json');
-            textarea.select();
-            navigator.clipboard.writeText(textarea.value);
-            document.getElementById('admin-copy-btn').textContent = 'Copied!';
-            setTimeout(() => { document.getElementById('admin-copy-btn').textContent = 'Copy to Clipboard'; }, 2000);
-        });
 
         // Escape closes admin
         document.addEventListener('keydown', e => {
