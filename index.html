@@ -460,6 +460,24 @@
             gap: 8px;
         }
 
+        .panel-meta-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .panel-meta {
+            font-size: 0.85rem;
+            color: var(--slack-gray-700);
+            padding: 6px 12px;
+            background: var(--slack-gray-100);
+            border-radius: 6px;
+        }
+
+        .panel-meta strong {
+            color: var(--slack-dark);
+        }
+
         .detail-panel .dir {
             font-size: 0.65rem;
             font-weight: 900;
@@ -1492,6 +1510,34 @@
                             <input type="text" id="ap-desc" placeholder="Brief description of what this platform does" required>
                         </div>
                         <div class="admin-field">
+                            <label>Vendor URL</label>
+                            <input type="text" id="ap-vendor-url" placeholder="https://...">
+                        </div>
+                        <div class="admin-field">
+                            <label>Vendor Contact</label>
+                            <input type="text" id="ap-vendor-contact" placeholder="Name, email, or phone">
+                        </div>
+                        <div class="admin-form-row">
+                            <div class="admin-field">
+                                <label>Contract Start Date</label>
+                                <input type="text" id="ap-contract-start" placeholder="e.g. 2024-01-15">
+                            </div>
+                            <div class="admin-field">
+                                <label>Contract End Date</label>
+                                <input type="text" id="ap-contract-end" placeholder="e.g. 2025-01-15">
+                            </div>
+                        </div>
+                        <div class="admin-form-row">
+                            <div class="admin-field">
+                                <label>Platform Cost</label>
+                                <input type="text" id="ap-cost" placeholder="e.g. $50,000/yr">
+                            </div>
+                            <div class="admin-field">
+                                <label>Primary Stakeholder(s)</label>
+                                <input type="text" id="ap-stakeholders" placeholder="e.g. jane@slack.com">
+                            </div>
+                        </div>
+                        <div class="admin-field">
                             <label>Data Inputs (comma-separated)</label>
                             <input type="text" id="ap-flows-in" placeholder="e.g. Lead data, CRM events, API calls">
                         </div>
@@ -1779,7 +1825,22 @@
                 <h2>${item.title}</h2>
                 <span class="category-tag" style="background:${color}15; color:${color}; border:1px solid ${color}33;">${platforms[catKey].label}</span>
                 ${item.notes ? `<span class="notes-tag" style="background:${item.notes.includes('New') ? '#2eb67d15' : item.notes.includes('retiring') || item.notes.includes('moving') ? '#ecb22e15' : '#f4f4f4'}; color:${item.notes.includes('New') ? '#1a8a5c' : item.notes.includes('retiring') || item.notes.includes('moving') ? '#9a7400' : '#616061'};">${item.notes}</span>` : ''}
+
+                <h3>Description</h3>
                 <p>${item.desc}</p>
+
+                ${item.vendorUrl ? `<h3>Vendor URL</h3><p><a href="${item.vendorUrl}" target="_blank" style="color:${color}; text-decoration:none; font-weight:700;">${item.vendorUrl}</a></p>` : ''}
+                ${item.vendorContact ? `<h3>Vendor Contact</h3><p>${item.vendorContact}</p>` : ''}
+                ${item.contractStart || item.contractEnd ? `
+                    <h3>Contract</h3>
+                    <div class="panel-meta-row">
+                        ${item.contractStart ? `<span class="panel-meta"><strong>Start:</strong> ${item.contractStart}</span>` : ''}
+                        ${item.contractEnd ? `<span class="panel-meta"><strong>End:</strong> ${item.contractEnd}</span>` : ''}
+                    </div>
+                ` : ''}
+                ${item.cost ? `<h3>Platform Cost</h3><p>${item.cost}</p>` : ''}
+                ${item.stakeholders ? `<h3>Primary System Stakeholder(s)</h3><p>${item.stakeholders}</p>` : ''}
+
                 <h3>Data Inputs</h3>
                 <ul>${item.dataFlows.in.map(d => `<li><span class="dir in">IN</span>${d}</li>`).join('')}</ul>
                 <h3>Data Outputs</h3>
@@ -2378,24 +2439,19 @@
 
         function applyPlatformEdits() {
             const edits = getPlatformEdits();
+            const fields = ['title', 'icon', 'desc', 'notes', 'vendorUrl', 'vendorContact', 'contractStart', 'contractEnd', 'cost', 'stakeholders'];
             Object.entries(edits).forEach(([id, changes]) => {
                 Object.entries(platforms).forEach(([catKey, catData]) => {
                     const item = catData.items.find(i => i.id === id);
                     if (item) {
-                        if (changes.title) item.title = changes.title;
-                        if (changes.icon) item.icon = changes.icon;
-                        if (changes.desc) item.desc = changes.desc;
-                        if (changes.notes !== undefined) item.notes = changes.notes;
+                        fields.forEach(f => { if (changes[f] !== undefined) item[f] = changes[f]; });
                         if (changes.flowsIn) item.dataFlows.in = changes.flowsIn;
                         if (changes.flowsOut) item.dataFlows.out = changes.flowsOut;
                     }
                 });
                 const node = allNodes.find(n => n.id === id);
                 if (node) {
-                    if (changes.title) node.title = changes.title;
-                    if (changes.icon) node.icon = changes.icon;
-                    if (changes.desc) node.desc = changes.desc;
-                    if (changes.notes !== undefined) node.notes = changes.notes;
+                    fields.forEach(f => { if (changes[f] !== undefined) node[f] = changes[f]; });
                     if (changes.flowsIn) node.dataFlows.in = changes.flowsIn;
                     if (changes.flowsOut) node.dataFlows.out = changes.flowsOut;
                 }
@@ -2514,23 +2570,18 @@
             }
 
             // Update in-memory
+            const fields = ['title', 'icon', 'desc', 'notes', 'vendorUrl', 'vendorContact', 'contractStart', 'contractEnd', 'cost', 'stakeholders'];
             Object.entries(platforms).forEach(([catKey, catData]) => {
                 const item = catData.items.find(i => i.id === id);
                 if (item) {
-                    if (changes.title) item.title = changes.title;
-                    if (changes.icon) item.icon = changes.icon;
-                    if (changes.desc) item.desc = changes.desc;
-                    if (changes.notes !== undefined) item.notes = changes.notes;
+                    fields.forEach(f => { if (changes[f] !== undefined) item[f] = changes[f]; });
                     if (changes.flowsIn) item.dataFlows.in = changes.flowsIn;
                     if (changes.flowsOut) item.dataFlows.out = changes.flowsOut;
                 }
             });
             const node = allNodes.find(n => n.id === id);
             if (node) {
-                if (changes.title) node.title = changes.title;
-                if (changes.icon) node.icon = changes.icon;
-                if (changes.desc) node.desc = changes.desc;
-                if (changes.notes !== undefined) node.notes = changes.notes;
+                fields.forEach(f => { if (changes[f] !== undefined) node[f] = changes[f]; });
                 if (changes.flowsIn) node.dataFlows.in = changes.flowsIn;
                 if (changes.flowsOut) node.dataFlows.out = changes.flowsOut;
             }
@@ -2573,6 +2624,12 @@
             const category = document.getElementById('ap-category').value;
             const notes = document.getElementById('ap-notes').value;
             const desc = document.getElementById('ap-desc').value.trim();
+            const vendorUrl = document.getElementById('ap-vendor-url').value.trim();
+            const vendorContact = document.getElementById('ap-vendor-contact').value.trim();
+            const contractStart = document.getElementById('ap-contract-start').value.trim();
+            const contractEnd = document.getElementById('ap-contract-end').value.trim();
+            const cost = document.getElementById('ap-cost').value.trim();
+            const stakeholders = document.getElementById('ap-stakeholders').value.trim();
             const flowsIn = document.getElementById('ap-flows-in').value.split(',').map(s => s.trim()).filter(Boolean);
             const flowsOut = document.getElementById('ap-flows-out').value.split(',').map(s => s.trim()).filter(Boolean);
             const plgStage = document.getElementById('ap-plg-stage').value;
@@ -2581,7 +2638,7 @@
             const leadDetail = document.getElementById('ap-lead-detail').value.trim();
 
             const id = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-            const platform = { id, title, icon, category, notes, desc, flowsIn, flowsOut, plgStage, entStage, leadRole, leadDetail };
+            const platform = { id, title, icon, category, notes, desc, vendorUrl, vendorContact, contractStart, contractEnd, cost, stakeholders, flowsIn, flowsOut, plgStage, entStage, leadRole, leadDetail };
 
             const custom = getCustomPlatforms();
             custom.push(platform);
@@ -2653,6 +2710,34 @@
                         <input type="text" id="edit-notes-${p.id}" value="${(p.notes || '').replace(/"/g, '&quot;')}">
                     </div>
                     <div class="admin-field">
+                        <label>Vendor URL</label>
+                        <input type="text" id="edit-vendorUrl-${p.id}" value="${(p.vendorUrl || '').replace(/"/g, '&quot;')}" placeholder="https://...">
+                    </div>
+                    <div class="admin-field">
+                        <label>Vendor Contact</label>
+                        <input type="text" id="edit-vendorContact-${p.id}" value="${(p.vendorContact || '').replace(/"/g, '&quot;')}" placeholder="Name, email, or phone">
+                    </div>
+                    <div class="admin-form-row">
+                        <div class="admin-field">
+                            <label>Contract Start Date</label>
+                            <input type="text" id="edit-contractStart-${p.id}" value="${(p.contractStart || '').replace(/"/g, '&quot;')}" placeholder="e.g. 2024-01-15">
+                        </div>
+                        <div class="admin-field">
+                            <label>Contract End Date</label>
+                            <input type="text" id="edit-contractEnd-${p.id}" value="${(p.contractEnd || '').replace(/"/g, '&quot;')}" placeholder="e.g. 2025-01-15">
+                        </div>
+                    </div>
+                    <div class="admin-form-row">
+                        <div class="admin-field">
+                            <label>Platform Cost</label>
+                            <input type="text" id="edit-cost-${p.id}" value="${(p.cost || '').replace(/"/g, '&quot;')}" placeholder="e.g. $50,000/yr">
+                        </div>
+                        <div class="admin-field">
+                            <label>Primary Stakeholder(s)</label>
+                            <input type="text" id="edit-stakeholders-${p.id}" value="${(p.stakeholders || '').replace(/"/g, '&quot;')}" placeholder="e.g. jane@slack.com">
+                        </div>
+                    </div>
+                    <div class="admin-field">
                         <label>Data Inputs (comma-separated)</label>
                         <input type="text" id="edit-in-${p.id}" value="${p.dataFlows.in.join(', ')}">
                     </div>
@@ -2678,10 +2763,16 @@
             const icon = document.getElementById(`edit-icon-${id}`).value.trim();
             const desc = document.getElementById(`edit-desc-${id}`).value.trim();
             const notes = document.getElementById(`edit-notes-${id}`).value.trim();
+            const vendorUrl = document.getElementById(`edit-vendorUrl-${id}`).value.trim();
+            const vendorContact = document.getElementById(`edit-vendorContact-${id}`).value.trim();
+            const contractStart = document.getElementById(`edit-contractStart-${id}`).value.trim();
+            const contractEnd = document.getElementById(`edit-contractEnd-${id}`).value.trim();
+            const cost = document.getElementById(`edit-cost-${id}`).value.trim();
+            const stakeholders = document.getElementById(`edit-stakeholders-${id}`).value.trim();
             const flowsIn = document.getElementById(`edit-in-${id}`).value.split(',').map(s => s.trim()).filter(Boolean);
             const flowsOut = document.getElementById(`edit-out-${id}`).value.split(',').map(s => s.trim()).filter(Boolean);
 
-            editPlatform(id, { title, icon, desc, notes, flowsIn, flowsOut });
+            editPlatform(id, { title, icon, desc, notes, vendorUrl, vendorContact, contractStart, contractEnd, cost, stakeholders, flowsIn, flowsOut });
             toggleEditForm(id);
             renderManageList();
         }
