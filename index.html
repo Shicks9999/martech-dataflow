@@ -1037,7 +1037,7 @@
     </header>
 
     <div class="controls">
-        <button class="active" data-filter="all">All (43)</button>
+        <button class="active" data-filter="all">All (49)</button>
         <button data-filter="data">Data</button>
         <button data-filter="analytics">Analytics</button>
         <button data-filter="decisioning">Decisioning</button>
@@ -1066,7 +1066,7 @@
         <div id="sections-container"></div>
 
         <div class="stats-bar">
-            <div class="stat"><div class="stat-value">43</div><div class="stat-label">Total Platforms</div></div>
+            <div class="stat"><div class="stat-value">49</div><div class="stat-label">Total Platforms</div></div>
             <div class="stat"><div class="stat-value">5</div><div class="stat-label">Functional Layers</div></div>
             <div class="stat"><div class="stat-value">6</div><div class="stat-label">Channels</div></div>
             <div class="stat"><div class="stat-value">4</div><div class="stat-label">New to Slack</div></div>
@@ -1138,7 +1138,8 @@
                     { id: 'crunchbase', title: 'Crunchbase', icon: '🏢', desc: 'Company/firmographic enrichment data', notes: '', dataFlows: { in: ['Company lookups from CRM'], out: ['Firmographic data to Data Cloud', 'Company info enrichment'] } },
                     { id: 'leadspace', title: 'Leadspace', icon: '👥', desc: 'B2B data enrichment and audience building', notes: '', dataFlows: { in: ['Lead/contact records', 'Account data'], out: ['Enriched profiles to Data Cloud', 'Audience segments'] } },
                     { id: 'clearbit', title: 'Clearbit', icon: '🔍', desc: 'Lead enrichment — independent tool', notes: 'Independent tool', dataFlows: { in: ['Email/domain lookups'], out: ['Company & person data to CRM', 'Enrichment to Data Cloud'] } },
-                    { id: 'clay', title: 'Clay', icon: '🧱', desc: 'Data enrichment and outbound automation', notes: 'Same platform, different instance', dataFlows: { in: ['Lead lists', 'Enrichment triggers'], out: ['Enriched data to CRM', 'Outbound sequences'] } }
+                    { id: 'clay', title: 'Clay', icon: '🧱', desc: 'Data enrichment and outbound automation', notes: 'Same platform, different instance', dataFlows: { in: ['Lead lists', 'Enrichment triggers'], out: ['Enriched data to CRM', 'Outbound sequences'] } },
+                    { id: 'redshift', title: 'Redshift', icon: '🔴', desc: 'AWS data warehouse supporting analytics and marketing workloads', notes: '', dataFlows: { in: ['Marketing event data', 'Campaign data'], out: ['Query results to analytics tools', 'Attribution data'] } }
                 ]
             },
             analytics: {
@@ -1155,7 +1156,10 @@
                     { id: 'schema-app', title: 'Schema App', icon: '🏗️', desc: 'Structured data / schema markup for SEO', notes: 'Independent tool', dataFlows: { in: ['Page templates', 'Content metadata'], out: ['Schema markup to slack.com', 'Rich result eligibility'] } },
                     { id: 'ahrefs', title: 'Ahrefs', icon: '🔗', desc: 'SEO tool — new to Slack', notes: 'New to Slack', dataFlows: { in: ['Domain/URL inputs', 'Competitor analysis'], out: ['Backlink data', 'Keyword opportunities'] } },
                     { id: 'lumar', title: 'Lumar', icon: '🕷️', desc: 'Website intelligence / technical SEO', notes: 'New to Slack', dataFlows: { in: ['Crawl of slack.com', 'Technical config'], out: ['Technical SEO issues', 'Site health reports'] } },
-                    { id: 'speedcurve', title: 'SpeedCurve', icon: '⏱️', desc: 'Web performance monitoring', notes: 'Same platform, different instance', dataFlows: { in: ['Real user metrics', 'Synthetic tests'], out: ['Performance alerts', 'Core Web Vitals'] } }
+                    { id: 'speedcurve', title: 'SpeedCurve', icon: '⏱️', desc: 'Web performance monitoring', notes: 'Same platform, different instance', dataFlows: { in: ['Real user metrics', 'Synthetic tests'], out: ['Performance alerts', 'Core Web Vitals'] } },
+                    { id: 'similarweb', title: 'SimilarWeb', icon: '📈', desc: 'Website traffic analytics and competitive benchmarking', notes: '', dataFlows: { in: ['Domain/URL inputs', 'Competitor lists'], out: ['Traffic benchmarks', 'Market trend data'] } },
+                    { id: 'screaming-frog', title: 'Screaming Frog', icon: '🕷️', desc: 'Website crawler for technical SEO audits', notes: '', dataFlows: { in: ['Crawl of slack.com', 'URL lists'], out: ['Broken links report', 'Redirect chains', 'Duplicate content'] } },
+                    { id: 'user-testing', title: 'User Testing', icon: '🎬', desc: 'Video-first platform for qualitative user feedback on designs and flows', notes: '', dataFlows: { in: ['Prototype URLs', 'Test scripts', 'User panels'], out: ['Qualitative feedback videos', 'UX insights to CRO team'] } }
                 ]
             },
             decisioning: {
@@ -1180,7 +1184,9 @@
                     { id: 'on24-present', title: 'ON24 (Events)', icon: '📹', desc: 'Webinar/virtual event presentation platform', notes: 'Core & Slack shared platform', dataFlows: { in: ['Webinar content', 'Registration lists'], out: ['Engagement scores to Data Cloud', 'Recordings', 'Attendee data'] } },
                     { id: 'yext', title: 'Yext', icon: '📍', desc: 'Business listings and knowledge management', notes: 'Core & Slack shared platform', dataFlows: { in: ['Business info updates', 'Location data'], out: ['Listing sync to directories', 'Search analytics'] } },
                     { id: 'wordpress', title: 'WordPress', icon: '📝', desc: 'CMS for web content publishing', notes: 'Same platform, different instance', dataFlows: { in: ['Content from marketing team', 'SEO metadata'], out: ['Published pages to slack.com', 'Content feeds'] } },
-                    { id: 'next-gen-ma', title: 'Next Gen Marketing Automation', icon: '⚙️', desc: 'Marketing automation platform (Marketo replacement)', notes: 'Core & Slack shared platform', dataFlows: { in: ['Lead data from CRM', 'Behavioral triggers', 'Content assets'], out: ['Nurture emails', 'Lead scores to CRM', 'Campaign analytics'] } }
+                    { id: 'next-gen-ma', title: 'Next Gen Marketing Automation', icon: '⚙️', desc: 'Marketing automation platform (Marketo replacement)', notes: 'Core & Slack shared platform', dataFlows: { in: ['Lead data from CRM', 'Behavioral triggers', 'Content assets'], out: ['Nurture emails', 'Lead scores to CRM', 'Campaign analytics'] } },
+                    { id: 'splashthat', title: 'SplashThat', icon: '🎪', desc: 'Event marketing platform for virtual and in-person Slack events', notes: '', dataFlows: { in: ['Event configurations', 'Brand templates', 'Speaker data'], out: ['Registration data to CRM', 'Attendee lists', 'Event analytics'] } },
+                    { id: 'digicert', title: 'Digicert', icon: '🔒', desc: 'SSL/TLS certificates and digital trust for web properties', notes: '', dataFlows: { in: ['Certificate requests', 'Domain validation'], out: ['SSL certificates to slack.com', 'Trust seals'] } }
                 ]
             },
             channels: {
