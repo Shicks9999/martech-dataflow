@@ -777,6 +777,232 @@
             fill: var(--slack-aubergine);
         }
 
+        /* ===== LEAD FLOW VIEW ===== */
+        .lead-flow-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .lead-flow-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .lead-flow-title h2 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--slack-dark);
+            margin-bottom: 8px;
+        }
+
+        .lead-flow-title p {
+            color: var(--slack-gray-700);
+            font-size: 0.95rem;
+        }
+
+        .lead-flow-streams {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .lead-flow-stream {
+            position: relative;
+        }
+
+        .lead-stream-header {
+            text-align: center;
+            padding: 20px 24px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 24px;
+            position: sticky;
+            top: 80px;
+            z-index: 10;
+        }
+
+        .lead-stream-header.plg {
+            background: linear-gradient(135deg, #36c5f0 0%, #2eb67d 100%);
+        }
+
+        .lead-stream-header.enterprise {
+            background: linear-gradient(135deg, #611f69 0%, #4a154b 100%);
+        }
+
+        .lead-stream-header h3 {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--slack-white);
+            margin-bottom: 4px;
+        }
+
+        .lead-stream-header p {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.8);
+            margin: 0;
+        }
+
+        .lead-stage {
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        .lead-stage-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 20px;
+            background: var(--slack-white);
+            border: 2px solid var(--stage-color);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .lead-stage-header:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateX(4px);
+        }
+
+        .lead-stage-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--stage-color);
+            color: var(--slack-white);
+            font-weight: 900;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .lead-stage-info {
+            flex: 1;
+        }
+
+        .lead-stage-info h3 {
+            font-size: 0.95rem;
+            font-weight: 900;
+            color: var(--slack-dark);
+            margin-bottom: 2px;
+        }
+
+        .lead-stage-info p {
+            font-size: 0.75rem;
+            color: var(--slack-gray-700);
+            margin: 0;
+        }
+
+        .lead-stage-platforms-count {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 100px;
+            background: color-mix(in srgb, var(--stage-color) 10%, var(--slack-white));
+            color: var(--stage-color);
+            border: 1px solid color-mix(in srgb, var(--stage-color) 25%, transparent);
+        }
+
+        .lead-stage-toggle {
+            font-size: 1rem;
+            color: var(--slack-gray-500);
+            transition: transform 0.3s ease;
+        }
+
+        .lead-stage.open .lead-stage-toggle {
+            transform: rotate(180deg);
+        }
+
+        .lead-stage-body {
+            display: none;
+            padding: 16px 18px 18px;
+            margin-top: -12px;
+            padding-top: 28px;
+            background: var(--slack-gray-100);
+            border: 1px solid var(--slack-gray-200);
+            border-top: none;
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+        }
+
+        .lead-stage.open .lead-stage-body {
+            display: block;
+        }
+
+        .lead-platform-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .lead-platform-card {
+            display: flex;
+            gap: 12px;
+            padding: 14px;
+            background: var(--slack-white);
+            border: 1px solid var(--slack-gray-200);
+            border-radius: var(--radius);
+            border-left: 4px solid var(--stage-color);
+            transition: all 0.2s ease;
+        }
+
+        .lead-platform-card:hover {
+            box-shadow: var(--shadow-sm);
+            border-color: var(--stage-color);
+        }
+
+        .lead-platform-icon {
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .lead-platform-content h4 {
+            font-size: 0.82rem;
+            font-weight: 900;
+            color: var(--slack-dark);
+            margin-bottom: 3px;
+        }
+
+        .lead-platform-content p {
+            font-size: 0.75rem;
+            color: var(--slack-gray-700);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .lead-platform-role {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 3px 8px;
+            border-radius: 100px;
+            font-size: 0.63rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            background: color-mix(in srgb, var(--stage-color) 10%, var(--slack-white));
+            color: var(--stage-color);
+        }
+
+        .lead-stage-connector {
+            display: flex;
+            justify-content: center;
+            padding: 4px 0;
+        }
+
+        .lead-stage-connector svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        @media (max-width: 900px) {
+            .lead-flow-streams {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* Card view wrapper */
         .card-view { display: block; }
         .card-view.hidden { display: none; }
@@ -820,6 +1046,7 @@
         <div class="separator"></div>
         <button class="view-btn" id="network-btn">Network Map</button>
         <button class="view-btn" id="flow-btn">Layer Diagram</button>
+        <button class="view-btn" id="lead-flow-btn">Lead Flow</button>
     </div>
 
     <!-- CARD VIEW -->
@@ -885,6 +1112,14 @@
         <button class="close-flow" id="close-flow">Close Layer View</button>
         <div class="flow-canvas">
             <div class="flow-diagram" id="flow-diagram"></div>
+        </div>
+    </div>
+
+    <!-- LEAD FLOW OVERLAY -->
+    <div class="flow-overlay" id="lead-flow-overlay">
+        <button class="close-flow" id="close-lead-flow">Close Lead Flow</button>
+        <div class="flow-canvas">
+            <div class="lead-flow-container" id="lead-flow-container"></div>
         </div>
     </div>
 
@@ -1129,6 +1364,7 @@
             if (e.key === 'Escape') {
                 document.getElementById('detail-panel').classList.remove('open');
                 document.getElementById('flow-overlay').classList.remove('active');
+                document.getElementById('lead-flow-overlay').classList.remove('active');
                 netActiveNode = null;
                 document.querySelectorAll('.net-node').forEach(n => n.classList.remove('active'));
                 renderNetConnections();
@@ -1445,6 +1681,227 @@
                 renderNetConnections();
             }
         });
+
+        // ===== LEAD FLOW =====
+        const leadFlowData = {
+            plg: {
+                name: 'Self-Serve / PLG',
+                subtitle: 'Product-led growth motion — free trials, self-serve signups, and product-qualified expansion',
+                stages: [
+                    {
+                        id: 'plg-acquisition',
+                        name: 'Acquisition',
+                        description: 'Driving signups and free trial starts',
+                        color: '#36c5f0',
+                        platforms: [
+                            { icon: '🌐', title: 'slack.com', role: 'Free trial signup', detail: 'Primary self-serve entry point — free workspace creation and trial starts' },
+                            { icon: '📣', title: 'Paid Media', role: 'Performance marketing', detail: 'Google Ads, Meta campaigns targeting SMB/self-serve audiences with signup CTAs' },
+                            { icon: '🧪', title: 'Optimizely', role: 'Signup optimization', detail: 'A/B tests on signup flow, pricing pages, and onboarding to maximize conversion' },
+                            { icon: '📊', title: 'Google Analytics 4', role: 'Acquisition tracking', detail: 'Tracks signup funnel, source attribution, and drop-off points in the self-serve flow' }
+                        ]
+                    },
+                    {
+                        id: 'plg-activation',
+                        name: 'Activation & Usage',
+                        description: 'Driving product adoption and engagement signals',
+                        color: '#2eb67d',
+                        platforms: [
+                            { icon: '📱', title: 'In-App', role: 'Onboarding nudges', detail: 'Contextual product notifications driving users to key activation milestones' },
+                            { icon: '🧪', title: 'Optimizely', role: 'Activation experiments', detail: 'Tests onboarding variants and feature discovery flows to improve activation rates' },
+                            { icon: '❄️', title: 'Snowflake', role: 'Usage data warehouse', detail: 'Stores granular product usage events that feed PQL scoring models' },
+                            { icon: '🖼️', title: 'Content Square', role: 'UX analytics', detail: 'Session replay and heatmaps identify friction in product adoption flows' }
+                        ]
+                    },
+                    {
+                        id: 'plg-scoring',
+                        name: 'PQL Scoring',
+                        description: 'Identifying product-qualified leads ready for upgrade or expansion',
+                        color: '#611f69',
+                        platforms: [
+                            { icon: '🎯', title: 'MadKudu', role: 'PQL scoring engine', detail: 'Scores users based on product usage patterns, team size, and fit signals' },
+                            { icon: '☁️', title: 'Salesforce Data Cloud', role: 'Signal unification', detail: 'Unifies product usage events with firmographic data for scoring context' },
+                            { icon: '🤖', title: 'Agentforce', role: 'AI qualification', detail: 'Evaluates PQL signals and determines routing — self-serve upgrade vs. sales touch' }
+                        ]
+                    },
+                    {
+                        id: 'plg-nurture',
+                        name: 'Self-Serve Nurture',
+                        description: 'Automated engagement driving upgrade and expansion',
+                        color: '#ecb22e',
+                        platforms: [
+                            { icon: '📱', title: 'In-App', role: 'Upgrade prompts', detail: 'Usage-triggered messages promoting paid features at moment of need' },
+                            { icon: '✉️', title: 'Salesforce Marketing Cloud', role: 'Lifecycle emails', detail: 'Automated email sequences based on usage milestones, trial expiry, and plan limits' },
+                            { icon: '⚙️', title: 'Next Gen Marketing Automation', role: 'Journey orchestration', detail: 'Manages PLG nurture logic — triggers, branching, and timing for self-serve users' },
+                            { icon: '🌐', title: 'slack.com', role: 'Personalized web', detail: 'Dynamic pricing pages and feature comparison based on current usage tier' }
+                        ]
+                    },
+                    {
+                        id: 'plg-conversion',
+                        name: 'Conversion & Expansion',
+                        description: 'Self-serve upgrades and hand-off to sales for large accounts',
+                        color: '#e01e5a',
+                        platforms: [
+                            { icon: '🌐', title: 'slack.com', role: 'Self-serve checkout', detail: 'In-product upgrade flow — plan selection, billing, and seat expansion' },
+                            { icon: '🤖', title: 'Agentforce', role: 'Sales hand-off', detail: 'Routes high-value PQLs to sales when account size or usage warrants human touch' },
+                            { icon: '💼', title: 'Salesforce CRM', role: 'Opportunity creation', detail: 'Creates opportunities for PQLs escalated to sales for enterprise conversion' },
+                            { icon: '📊', title: 'Google Analytics 4', role: 'Conversion tracking', detail: 'Tracks self-serve upgrade events, plan changes, and expansion revenue' },
+                            { icon: '🧪', title: 'Haus', role: 'Incrementality', detail: 'Measures true incremental lift of PLG interventions on upgrade conversion' }
+                        ]
+                    }
+                ]
+            },
+            enterprise: {
+                name: 'Enterprise',
+                subtitle: 'Sales-assisted motion — demand gen, ABM, and sales-qualified pipeline',
+                stages: [
+                    {
+                        id: 'ent-generation',
+                        name: 'Demand Generation',
+                        description: 'Capturing enterprise leads through high-intent channels',
+                        color: '#611f69',
+                        platforms: [
+                            { icon: '💬', title: 'Qualified', role: 'Meeting booker', detail: 'Identifies enterprise visitors on slack.com and routes to sales for immediate engagement' },
+                            { icon: '📣', title: 'Paid Media', role: 'ABM campaigns', detail: 'LinkedIn, Demandbase display, and programmatic targeting enterprise accounts' },
+                            { icon: '🎙️', title: 'Webinar / Events', role: 'Event capture', detail: 'ON24 webinars and Rainfocus events generate enterprise leads through content engagement' },
+                            { icon: '🔄', title: 'Integrate', role: 'Content syndication', detail: 'Third-party content syndication drives leads from enterprise-focused publishers' },
+                            { icon: '🤝', title: 'Impact', role: 'Partner referrals', detail: 'SI and technology partner referrals drive enterprise opportunities' }
+                        ]
+                    },
+                    {
+                        id: 'ent-enrichment',
+                        name: 'Enrichment & ABM',
+                        description: 'Building complete account profiles and intent signals',
+                        color: '#36c5f0',
+                        platforms: [
+                            { icon: '🎯', title: 'Demandbase', role: 'ABM & intent', detail: 'Account-level intent signals, technographic data, and ABM targeting for enterprise accounts' },
+                            { icon: '👥', title: 'Leadspace', role: 'B2B enrichment', detail: 'Enriches enterprise leads with org chart, technographic, and fit data' },
+                            { icon: '🏢', title: 'Crunchbase', role: 'Firmographics', detail: 'Company funding, headcount, and industry data for enterprise account profiling' },
+                            { icon: '🔍', title: 'Clearbit', role: 'Real-time enrichment', detail: 'Instant company and person enrichment on form fill for enterprise leads' },
+                            { icon: '🔗', title: 'LiveRamp', role: 'Audience matching', detail: 'Matches first-party enterprise segments to LinkedIn for targeted ABM campaigns' },
+                            { icon: '☁️', title: 'Salesforce Data Cloud', role: 'Unified profiles', detail: 'Creates unified enterprise account profiles combining all enrichment sources' }
+                        ]
+                    },
+                    {
+                        id: 'ent-scoring',
+                        name: 'MQL Scoring & Qualification',
+                        description: 'Evaluating enterprise lead quality for sales readiness',
+                        color: '#ecb22e',
+                        platforms: [
+                            { icon: '⚙️', title: 'Next Gen Marketing Automation', role: 'MQL scoring', detail: 'Behavioral scoring based on content downloads, email engagement, and web activity' },
+                            { icon: '🤖', title: 'Agentforce', role: 'AI qualification', detail: 'Evaluates fit + engagement signals to determine sales-readiness and priority tier' },
+                            { icon: '☁️', title: 'Salesforce Data Cloud', role: 'Signal aggregation', detail: 'Aggregates cross-channel engagement signals into unified scoring inputs' },
+                            { icon: '🎯', title: 'Demandbase', role: 'Account scoring', detail: 'Account-level engagement and intent scores complement individual lead scores' }
+                        ]
+                    },
+                    {
+                        id: 'ent-routing',
+                        name: 'Routing & Sales Handoff',
+                        description: 'Directing qualified leads to the right sales team',
+                        color: '#e01e5a',
+                        platforms: [
+                            { icon: '🤖', title: 'Agentforce', role: 'Intelligent routing', detail: 'Routes MQLs to appropriate AE based on territory, segment, and account ownership' },
+                            { icon: '💼', title: 'Salesforce CRM', role: 'Assignment & SDR', detail: 'Lead assignment rules, round-robin, and SDR queue management for enterprise leads' },
+                            { icon: '💬', title: 'Qualified', role: 'Real-time routing', detail: 'Routes high-intent enterprise visitors to assigned AE for immediate live engagement' },
+                            { icon: '🔄', title: 'Integrate', role: 'Lead dedup & routing', detail: 'Deduplicates syndication leads and routes based on account ownership rules' }
+                        ]
+                    },
+                    {
+                        id: 'ent-nurture',
+                        name: 'Enterprise Nurture',
+                        description: 'Multi-touch engagement for long-cycle enterprise deals',
+                        color: '#2eb67d',
+                        platforms: [
+                            { icon: '✉️', title: 'Salesforce Marketing Cloud', role: 'Email campaigns', detail: 'Personalized enterprise nurture sequences — case studies, ROI content, and event invites' },
+                            { icon: '⚙️', title: 'Next Gen Marketing Automation', role: 'Nurture orchestration', detail: 'Multi-track nurture programs with scoring progression and sales alignment triggers' },
+                            { icon: '📹', title: 'ON24 (Events)', role: 'Webinar engagement', detail: 'Enterprise-focused webinars and virtual events as mid-funnel nurture touchpoints' },
+                            { icon: '📣', title: 'Paid Media', role: 'ABM retargeting', detail: 'Demandbase and LinkedIn retargeting keeps enterprise accounts engaged across channels' },
+                            { icon: '🎯', title: 'Demandbase', role: 'ABM orchestration', detail: 'Coordinates account-level engagement across display, web personalization, and sales alerts' }
+                        ]
+                    },
+                    {
+                        id: 'ent-conversion',
+                        name: 'Pipeline & Attribution',
+                        description: 'Converting to opportunity and measuring enterprise marketing impact',
+                        color: '#4a154b',
+                        platforms: [
+                            { icon: '💼', title: 'Salesforce CRM', role: 'Pipeline tracking', detail: 'Opportunity creation, stage progression, and revenue tracking for enterprise deals' },
+                            { icon: '🧩', title: 'Marketing Intelligence', role: 'Multi-touch attribution', detail: 'Attributes pipeline and revenue credit across all enterprise touchpoints' },
+                            { icon: '❄️', title: 'Snowflake', role: 'Attribution modeling', detail: 'Custom attribution models for long-cycle enterprise deals with many touchpoints' },
+                            { icon: '📈', title: 'Tableau', role: 'Pipeline dashboards', detail: 'Executive dashboards showing enterprise pipeline health, velocity, and conversion rates' },
+                            { icon: '🔍', title: 'Looker', role: 'KPI reporting', detail: 'Governed enterprise marketing KPIs — CAC, LTV, pipeline contribution, and win rates' },
+                            { icon: '🧪', title: 'Haus', role: 'Incrementality', detail: 'Measures incremental lift of ABM and enterprise campaigns on pipeline generation' }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        document.getElementById('lead-flow-btn').addEventListener('click', () => {
+            document.getElementById('lead-flow-overlay').classList.add('active');
+            renderLeadFlow();
+        });
+
+        document.getElementById('close-lead-flow').addEventListener('click', () => {
+            document.getElementById('lead-flow-overlay').classList.remove('active');
+        });
+
+        function renderLeadFlow() {
+            const container = document.getElementById('lead-flow-container');
+            container.innerHTML = `
+                <div class="lead-flow-title">
+                    <h2>Lead Flow</h2>
+                    <p>How leads move through Slack Marketing's martech ecosystem — two distinct motions from capture to conversion</p>
+                </div>
+                <div class="lead-flow-streams">
+                    ${renderStream(leadFlowData.plg, 'plg')}
+                    ${renderStream(leadFlowData.enterprise, 'enterprise')}
+                </div>
+            `;
+        }
+
+        function renderStream(stream, type) {
+            return `
+                <div class="lead-flow-stream">
+                    <div class="lead-stream-header ${type}">
+                        <h3>${stream.name}</h3>
+                        <p>${stream.subtitle}</p>
+                    </div>
+                    ${stream.stages.map((stage, i) => `
+                        ${i > 0 ? `<div class="lead-stage-connector"><svg viewBox="0 0 24 24" fill="none"><path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="${stage.color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>` : ''}
+                        <div class="lead-stage" style="--stage-color:${stage.color}" data-stage="${stage.id}">
+                            <div class="lead-stage-header" onclick="toggleLeadStage(this)">
+                                <div class="lead-stage-number">${i + 1}</div>
+                                <div class="lead-stage-info">
+                                    <h3>${stage.name}</h3>
+                                    <p>${stage.description}</p>
+                                </div>
+                                <span class="lead-stage-platforms-count">${stage.platforms.length}</span>
+                                <span class="lead-stage-toggle">▼</span>
+                            </div>
+                            <div class="lead-stage-body">
+                                <div class="lead-platform-list">
+                                    ${stage.platforms.map(p => `
+                                        <div class="lead-platform-card">
+                                            <span class="lead-platform-icon">${p.icon}</span>
+                                            <div class="lead-platform-content">
+                                                <h4>${p.title}</h4>
+                                                <p>${p.detail}</p>
+                                                <span class="lead-platform-role">${p.role}</span>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function toggleLeadStage(header) {
+            const stage = header.parentElement;
+            stage.classList.toggle('open');
+        }
     </script>
 </body>
 </html>
