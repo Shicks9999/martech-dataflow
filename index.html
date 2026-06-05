@@ -112,7 +112,7 @@
             display: flex;
             justify-content: center;
             gap: 8px;
-            padding: 16px 20px;
+            padding: 12px 20px;
             flex-wrap: wrap;
             position: sticky;
             top: 0;
@@ -120,6 +120,14 @@
             z-index: 100;
             border-bottom: 1px solid var(--slack-gray-200);
             box-shadow: var(--shadow-sm);
+        }
+
+        .controls.controls-secondary {
+            position: sticky;
+            top: 52px;
+            padding: 8px 20px;
+            border-bottom: 1px solid var(--slack-gray-200);
+            box-shadow: none;
         }
 
         .controls button {
@@ -1951,7 +1959,8 @@
         <button data-filter="analytics-bi">Analytics</button>
         <button data-filter="seo">SEO</button>
         <button data-filter="partner">Partner</button>
-        <div class="separator"></div>
+    </div>
+    <div class="controls controls-secondary">
         <button class="view-btn" id="network-btn">Network Map</button>
         <button class="view-btn" id="flow-btn">Layer Diagram</button>
         <button class="view-btn" id="lead-flow-btn">Lead Flow</button>
