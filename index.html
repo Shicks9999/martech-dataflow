@@ -312,11 +312,16 @@
         .node-card.highlighted::before { opacity: 1; }
         .node-card.dimmed { opacity: 0.3; transform: scale(0.98); }
 
-        .node-card[data-category="data"] { --node-color: var(--slack-blue); }
-        .node-card[data-category="analytics"] { --node-color: var(--slack-yellow); }
-        .node-card[data-category="decisioning"] { --node-color: var(--slack-aubergine); }
-        .node-card[data-category="presentation"] { --node-color: var(--slack-red); }
-        .node-card[data-category="channels"] { --node-color: var(--slack-green); }
+        .node-card[data-category="channels"] { --node-color: #2eb67d; }
+        .node-card[data-category="campaign"] { --node-color: #e01e5a; }
+        .node-card[data-category="events"] { --node-color: #ff6b35; }
+        .node-card[data-category="web"] { --node-color: #1264a3; }
+        .node-card[data-category="enrichment"] { --node-color: #36c5f0; }
+        .node-card[data-category="data-warehouse"] { --node-color: #4a154b; }
+        .node-card[data-category="experimentation"] { --node-color: #611f69; }
+        .node-card[data-category="analytics-bi"] { --node-color: #ecb22e; }
+        .node-card[data-category="seo"] { --node-color: #8B5CF6; }
+        .node-card[data-category="partner"] { --node-color: #059669; }
 
         .node-card .node-title {
             font-weight: 900;
@@ -352,6 +357,103 @@
         .node-badge.status-new { background: rgba(46, 182, 125, 0.1); color: #1a8a5c; }
         .node-badge.status-warning { background: rgba(236, 178, 46, 0.12); color: #9a7400; }
         .node-badge.status-shared { background: rgba(54, 197, 240, 0.1); color: #1a7fa8; }
+        .node-badge.status-multi { background: rgba(97, 31, 105, 0.1); color: #611f69; }
+
+        .category-desc {
+            font-size: 0.82rem;
+            color: var(--slack-gray-700);
+            margin-top: -12px;
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .node-also-supports {
+            font-size: 0.72rem;
+            color: var(--slack-gray-500);
+            font-style: italic;
+            margin-top: 6px;
+        }
+
+        .view-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            padding: 12px 20px;
+            background: var(--slack-gray-100);
+            border-bottom: 1px solid var(--slack-gray-200);
+        }
+        .view-toggle button {
+            padding: 8px 20px;
+            border: 1px solid var(--slack-gray-300);
+            background: var(--slack-white);
+            color: var(--slack-gray-700);
+            font-size: 0.82rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .view-toggle button:first-child { border-radius: 100px 0 0 100px; }
+        .view-toggle button:last-child { border-radius: 0 100px 100px 0; }
+        .view-toggle button.active {
+            background: var(--slack-aubergine-dark);
+            border-color: var(--slack-aubergine-dark);
+            color: var(--slack-white);
+        }
+
+        .journey-view { display: none; max-width: 1400px; margin: 0 auto; padding: 40px 24px; }
+        .journey-view.active { display: block; }
+        .journey-stage {
+            margin-bottom: 32px;
+            padding: 20px 24px;
+            border-radius: var(--radius);
+            border: 1px solid var(--slack-gray-200);
+            background: var(--slack-white);
+        }
+        .journey-stage-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .journey-stage-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--slack-aubergine-dark);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 900;
+        }
+        .journey-stage h3 {
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: var(--slack-dark);
+        }
+        .journey-platforms {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .journey-platform-tag {
+            padding: 6px 14px;
+            border-radius: 100px;
+            background: var(--slack-gray-100);
+            border: 1px solid var(--slack-gray-200);
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--slack-gray-700);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .journey-platform-tag:hover {
+            background: var(--slack-aubergine-dark);
+            color: white;
+            border-color: var(--slack-aubergine-dark);
+        }
 
         /* Stats bar */
         .stats-bar {
@@ -602,17 +704,27 @@
             justify-content: center;
         }
 
-        .net-node[data-category="data"] .net-badge { background: var(--slack-blue); }
-        .net-node[data-category="analytics"] .net-badge { background: var(--slack-yellow); color: var(--slack-dark); }
-        .net-node[data-category="decisioning"] .net-badge { background: var(--slack-aubergine); }
-        .net-node[data-category="presentation"] .net-badge { background: var(--slack-red); }
-        .net-node[data-category="channels"] .net-badge { background: var(--slack-green); }
+        .net-node[data-category="channels"] .net-badge { background: #2eb67d; }
+        .net-node[data-category="campaign"] .net-badge { background: #e01e5a; }
+        .net-node[data-category="events"] .net-badge { background: #ff6b35; }
+        .net-node[data-category="web"] .net-badge { background: #1264a3; }
+        .net-node[data-category="enrichment"] .net-badge { background: #36c5f0; }
+        .net-node[data-category="data-warehouse"] .net-badge { background: #4a154b; }
+        .net-node[data-category="experimentation"] .net-badge { background: #611f69; }
+        .net-node[data-category="analytics-bi"] .net-badge { background: #ecb22e; color: var(--slack-dark); }
+        .net-node[data-category="seo"] .net-badge { background: #8B5CF6; }
+        .net-node[data-category="partner"] .net-badge { background: #059669; }
 
-        .net-node[data-category="data"] { border-top: 3px solid var(--slack-blue); }
-        .net-node[data-category="analytics"] { border-top: 3px solid var(--slack-yellow); }
-        .net-node[data-category="decisioning"] { border-top: 3px solid var(--slack-aubergine); }
-        .net-node[data-category="presentation"] { border-top: 3px solid var(--slack-red); }
-        .net-node[data-category="channels"] { border-top: 3px solid var(--slack-green); }
+        .net-node[data-category="channels"] { border-top: 3px solid #2eb67d; }
+        .net-node[data-category="campaign"] { border-top: 3px solid #e01e5a; }
+        .net-node[data-category="events"] { border-top: 3px solid #ff6b35; }
+        .net-node[data-category="web"] { border-top: 3px solid #1264a3; }
+        .net-node[data-category="enrichment"] { border-top: 3px solid #36c5f0; }
+        .net-node[data-category="data-warehouse"] { border-top: 3px solid #4a154b; }
+        .net-node[data-category="experimentation"] { border-top: 3px solid #611f69; }
+        .net-node[data-category="analytics-bi"] { border-top: 3px solid #ecb22e; }
+        .net-node[data-category="seo"] { border-top: 3px solid #8B5CF6; }
+        .net-node[data-category="partner"] { border-top: 3px solid #059669; }
 
         /* Network controls */
         .network-controls {
@@ -1828,12 +1940,17 @@
     </header>
 
     <div class="controls">
-        <button class="active" data-filter="all">All (49)</button>
-        <button data-filter="data">Data</button>
-        <button data-filter="analytics">Analytics</button>
-        <button data-filter="decisioning">Decisioning</button>
-        <button data-filter="presentation">Presentation</button>
+        <button class="active" data-filter="all">All</button>
         <button data-filter="channels">Channels</button>
+        <button data-filter="campaign">Campaign</button>
+        <button data-filter="events">Events</button>
+        <button data-filter="web">Web</button>
+        <button data-filter="enrichment">Enrichment</button>
+        <button data-filter="data-warehouse">Data & CRM</button>
+        <button data-filter="experimentation">Experimentation</button>
+        <button data-filter="analytics-bi">Analytics</button>
+        <button data-filter="seo">SEO</button>
+        <button data-filter="partner">Partner</button>
         <div class="separator"></div>
         <button class="view-btn" id="network-btn">Network Map</button>
         <button class="view-btn" id="flow-btn">Layer Diagram</button>
@@ -1850,19 +1967,31 @@
         </div>
 
         <div class="legend">
-            <div class="legend-item"><div class="legend-dot" style="background:var(--slack-blue)"></div>Data</div>
-            <div class="legend-item"><div class="legend-dot" style="background:var(--slack-yellow)"></div>Analytics</div>
-            <div class="legend-item"><div class="legend-dot" style="background:var(--slack-aubergine)"></div>Decisioning</div>
-            <div class="legend-item"><div class="legend-dot" style="background:var(--slack-red)"></div>Presentation</div>
-            <div class="legend-item"><div class="legend-dot" style="background:var(--slack-green)"></div>Channels</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#2eb67d"></div>Channels</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#e01e5a"></div>Campaign</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#ff6b35"></div>Events</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#1264a3"></div>Web</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#36c5f0"></div>Enrichment</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#4a154b"></div>Data & CRM</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#611f69"></div>Experimentation</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#ecb22e"></div>Analytics</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#8B5CF6"></div>SEO</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#059669"></div>Partner</div>
+        </div>
+
+        <div class="view-toggle" id="view-toggle">
+            <button class="active" id="platform-view-btn">Platform View</button>
+            <button id="journey-view-btn">Journey View</button>
         </div>
 
         <div id="sections-container"></div>
 
+        <div class="journey-view" id="journey-view"></div>
+
         <div class="stats-bar">
-            <div class="stat"><div class="stat-value">49</div><div class="stat-label">Total Platforms</div></div>
-            <div class="stat"><div class="stat-value">5</div><div class="stat-label">Functional Layers</div></div>
-            <div class="stat"><div class="stat-value">6</div><div class="stat-label">Channels</div></div>
+            <div class="stat"><div class="stat-value">50</div><div class="stat-label">Total Platforms</div></div>
+            <div class="stat"><div class="stat-value">10</div><div class="stat-label">Categories</div></div>
+            <div class="stat"><div class="stat-value">8</div><div class="stat-label">Channels</div></div>
             <div class="stat"><div class="stat-value">4</div><div class="stat-label">New to Slack</div></div>
             <div class="stat"><div class="stat-value">3</div><div class="stat-label">Core Changes</div></div>
         </div>
@@ -1874,11 +2003,16 @@
     <div class="network-view" id="network-view">
         <div class="network-controls">
             <button class="active" data-net-filter="all">All</button>
-            <button data-net-filter="data">Data</button>
-            <button data-net-filter="analytics">Analytics</button>
-            <button data-net-filter="decisioning">Decisioning</button>
-            <button data-net-filter="presentation">Presentation</button>
             <button data-net-filter="channels">Channels</button>
+            <button data-net-filter="campaign">Campaign</button>
+            <button data-net-filter="events">Events</button>
+            <button data-net-filter="web">Web</button>
+            <button data-net-filter="enrichment">Enrichment</button>
+            <button data-net-filter="data-warehouse">Data & CRM</button>
+            <button data-net-filter="experimentation">Experimentation</button>
+            <button data-net-filter="analytics-bi">Analytics</button>
+            <button data-net-filter="seo">SEO</button>
+            <button data-net-filter="partner">Partner</button>
             <button id="net-animate-btn">Animate</button>
             <button id="net-reset-btn">Reset</button>
         </div>
@@ -1886,11 +2020,16 @@
             <svg class="net-connections" id="net-svg"></svg>
         </div>
         <div class="network-legend">
-            <span><span class="nl-dot" style="background:var(--slack-blue)"></span>Data</span>
-            <span><span class="nl-dot" style="background:var(--slack-yellow)"></span>Analytics</span>
-            <span><span class="nl-dot" style="background:var(--slack-aubergine)"></span>Decisioning</span>
-            <span><span class="nl-dot" style="background:var(--slack-red)"></span>Presentation</span>
-            <span><span class="nl-dot" style="background:var(--slack-green)"></span>Channels</span>
+            <span><span class="nl-dot" style="background:#2eb67d"></span>Channels</span>
+            <span><span class="nl-dot" style="background:#e01e5a"></span>Campaign</span>
+            <span><span class="nl-dot" style="background:#ff6b35"></span>Events</span>
+            <span><span class="nl-dot" style="background:#1264a3"></span>Web</span>
+            <span><span class="nl-dot" style="background:#36c5f0"></span>Enrichment</span>
+            <span><span class="nl-dot" style="background:#4a154b"></span>Data & CRM</span>
+            <span><span class="nl-dot" style="background:#611f69"></span>Experimentation</span>
+            <span><span class="nl-dot" style="background:#ecb22e"></span>Analytics</span>
+            <span><span class="nl-dot" style="background:#8B5CF6"></span>SEO</span>
+            <span><span class="nl-dot" style="background:#059669"></span>Partner</span>
             <span style="font-style:italic; color:var(--slack-gray-500);">Click node for details &middot; Drag to reposition</span>
         </div>
     </div>
@@ -1990,11 +2129,16 @@
                                 <label>Category *</label>
                                 <select id="ap-category" required>
                                     <option value="">Select...</option>
-                                    <option value="data">Data</option>
-                                    <option value="analytics">Analytics</option>
-                                    <option value="decisioning">Decisioning</option>
-                                    <option value="presentation">Presentation</option>
-                                    <option value="channels">Channels</option>
+                                    <option value="channels">Acquisition Channels</option>
+                                    <option value="campaign">Campaign Execution</option>
+                                    <option value="events">Events & Webinar</option>
+                                    <option value="web">Web Platform</option>
+                                    <option value="enrichment">Enrichment</option>
+                                    <option value="data-warehouse">Data & CRM</option>
+                                    <option value="experimentation">Experimentation</option>
+                                    <option value="analytics-bi">Analytics & BI</option>
+                                    <option value="seo">SEO</option>
+                                    <option value="partner">Partner</option>
                                 </select>
                             </div>
                             <div class="admin-field">
@@ -2097,11 +2241,16 @@
                         <input type="text" id="admin-search" placeholder="Search platforms..." class="admin-manage-search">
                         <select id="admin-cat-filter">
                             <option value="all">All Categories</option>
-                            <option value="data">Data</option>
-                            <option value="analytics">Analytics</option>
-                            <option value="decisioning">Decisioning</option>
-                            <option value="presentation">Presentation</option>
                             <option value="channels">Channels</option>
+                            <option value="campaign">Campaign</option>
+                            <option value="events">Events</option>
+                            <option value="web">Web</option>
+                            <option value="enrichment">Enrichment</option>
+                            <option value="data-warehouse">Data & CRM</option>
+                            <option value="experimentation">Experimentation</option>
+                            <option value="analytics-bi">Analytics</option>
+                            <option value="seo">SEO</option>
+                            <option value="partner">Partner</option>
                         </select>
                     </div>
                     <div id="admin-platform-list"></div>
@@ -2114,78 +2263,114 @@
     <script>
         // ===== DATA =====
         const platforms = {
-            data: {
-                label: 'Data', icon: '🗄️', colorHex: '#36c5f0',
+            channels: {
+                label: 'Acquisition Channels', icon: '📢', colorHex: '#2eb67d',
+                purpose: 'Major marketing channels and the platforms that support each one',
                 items: [
-                    { id: 'snowflake', title: 'Snowflake', icon: '❄️', desc: 'Primary data warehouse; source for campaign, enrichment, and attribution data', notes: '', dataFlows: { in: ['Campaign events', 'Enrichment sources', 'Attribution signals'], out: ['Query results to Looker/Tableau', 'Audience segments to Data Cloud', 'Attribution data to MI'] } },
-                    { id: 'data-cloud', title: 'Salesforce Data Cloud', icon: '☁️', desc: 'Unified customer profiles and data activation; Slack Individual dataset migration in progress', notes: 'Core moving to Data360', dataFlows: { in: ['CRM data from Org62', 'Enrichment from Leadspace/Clearbit', 'Behavioral events'], out: ['Unified profiles to SMC', 'Segments to channels', 'Activation signals to Agentforce'] } },
-                    { id: 'salesforce-crm', title: 'Salesforce CRM (Org62)', icon: '💼', desc: 'Lead, contact, and opportunity data', notes: '', dataFlows: { in: ['Lead forms', 'Sales activity', 'MadKudu PQL scores'], out: ['Contact data to Data Cloud', 'Opportunity data to Snowflake', 'Lead info to Demandbase'] } },
+                    { id: 'ch-email', title: 'Email', icon: '📧', desc: 'Salesforce Marketing Cloud, Next Gen Marketing Automation', notes: '', dataFlows: { in: ['Templates from SMC', 'Audiences from Data Cloud', 'Triggers from Agentforce'], out: ['Engagement data to Snowflake', 'Deliverability metrics'] } },
+                    { id: 'ch-web', title: 'Web / Digital', icon: '🌐', desc: 'slack.com Web, WordPress, Optimizely, GA4', notes: '', dataFlows: { in: ['CMS content', 'Personalization from Optimizely', 'Qualified chat'], out: ['Conversion events to GA4', 'Form fills to CRM'] } },
+                    { id: 'ch-inapp', title: 'In-App', icon: '📱', desc: 'Product-led growth notifications within Slack', notes: '', dataFlows: { in: ['PQL signals from MadKudu', 'Experiment variants'], out: ['Usage events to Snowflake', 'Conversion to MadKudu'] } },
+                    { id: 'ch-paid', title: 'Paid Media', icon: '📣', desc: 'Google Ads, Meta, LinkedIn, CM360, Capterra, Teads, OMR, Reddit', notes: '', dataFlows: { in: ['Audiences from LiveRamp/Data Cloud', 'ABM lists from Demandbase'], out: ['Impression/click data to MI', 'Conversion events'] } },
+                    { id: 'ch-events', title: 'Webinar / Events', icon: '🎙️', desc: 'ON24, Rainfocus, SplashThat', notes: '', dataFlows: { in: ['Event content', 'Promo from email/paid'], out: ['Registration/attendance to CRM', 'Engagement to Data Cloud'] } },
+                    { id: 'ch-affiliate', title: 'Affiliate / Partner', icon: '🤝', desc: 'Impact, Thrive', notes: '', dataFlows: { in: ['Partner program config', 'Creative assets'], out: ['Referral conversions to Thrive', 'Commission events'] } },
+                    { id: 'ch-seo', title: 'Organic Search / SEO', icon: '🔎', desc: 'SEMrush, BrightEdge, Ahrefs, Lumar, Screaming Frog, Schema App, Profound', notes: '', dataFlows: { in: ['Content strategy', 'Keyword research'], out: ['Organic traffic to slack.com', 'Search visibility'] } },
+                    { id: 'ch-sales', title: 'Sales-Assisted / SDR', icon: '💼', desc: 'Salesforce CRM / Org62, Qualified, Integrate, MadKudu / PQL', notes: '', dataFlows: { in: ['MQL/PQL signals', 'Lead routing rules'], out: ['Sales meetings', 'Pipeline creation'] } }
+                ]
+            },
+            campaign: {
+                label: 'Campaign Execution & Marketing Automation', icon: '⚙️', colorHex: '#e01e5a',
+                purpose: 'Platforms that execute, trigger, automate, route, or orchestrate marketing campaigns and lead flows',
+                items: [
+                    { id: 'smc', title: 'Salesforce Marketing Cloud', icon: '✉️', desc: 'Core email execution engine and data extensions', notes: 'Core & Slack shared platform', dataFlows: { in: ['Segments from Data Cloud', 'Campaign triggers from Agentforce', 'Templates'], out: ['Email sends', 'Engagement data to Snowflake', 'Delivery metrics'] } },
+                    { id: 'next-gen-ma', title: 'Next Gen Marketing Automation', icon: '⚙️', desc: 'Marketing automation platform (Marketo replacement)', notes: 'Core & Slack shared platform', dataFlows: { in: ['Lead data from CRM', 'Behavioral triggers', 'Content assets'], out: ['Nurture emails', 'Lead scores to CRM', 'Campaign analytics'] } },
+                    { id: 'integrate', title: 'Integrate', icon: '🔄', desc: 'Demand gen / lead management and routing', notes: 'Core moving to Converter', vendorContact: 'mostrander@integrate.com', stakeholders: 'nimira.medve@salesforce.com', cost: '$192,000', contractStart: '2026-02-01', contractEnd: '2027-01-31', dataFlows: { in: ['Content syndication leads', 'Third-party leads'], out: ['Qualified leads to CRM', 'Routing decisions'] } },
+                    { id: 'qualified', title: 'Qualified', icon: '💬', desc: 'Form to meeting booker; MQL generation', notes: 'New to Slack — Core & Slack shared', alsoSupports: 'Experimentation, Personalization & Decisioning', dataFlows: { in: ['Web visitor data', 'CRM account info'], out: ['Meeting bookings to CRM', 'MQL signals'] } },
+                    { id: 'agentforce', title: 'Agentforce / AI Agents', icon: '🤖', desc: 'Decisioning and automation layer across campaigns and lead routing', notes: '', alsoSupports: 'Experimentation, Personalization & Decisioning', dataFlows: { in: ['PQL scores from MadKudu', 'CRM triggers', 'Data Cloud signals'], out: ['Automated actions to SMC', 'Lead routing to sales', 'Campaign triggers'] } }
+                ]
+            },
+            events: {
+                label: 'Events & Webinar Platforms', icon: '🎪', colorHex: '#ff6b35',
+                purpose: 'Platforms used to create, manage, present, capture, and ingest event or webinar engagement',
+                items: [
+                    { id: 'on24', title: 'ON24', icon: '🎥', desc: 'Webinar and virtual event platform; event registration, engagement data, and presentation', notes: 'Core & Slack shared platform', alsoSupports: 'Produces engagement data for downstream analytics workflows', stakeholders: 'neha.garg@salesforce.com, r.dutta@salesforce.com, luis.almeida@salesforce.com, scottstocker@salesforce.com', dataFlows: { in: ['Webinar registrations', 'Attendance data', 'Engagement scores', 'Webinar content', 'Registration lists'], out: ['Event data to Snowflake', 'Attendee lists to CRM', 'Engagement to Data Cloud', 'Engagement scores to Data Cloud', 'Recordings'] } },
+                    { id: 'rainfocus', title: 'Rainfocus', icon: '🎪', desc: 'Event management and staffing platform', notes: '', dataFlows: { in: ['Event configs', 'Speaker/session data'], out: ['Registration data to CRM', 'Attendance to Snowflake'] } },
+                    { id: 'splashthat', title: 'SplashThat', icon: '🎪', desc: 'Event marketing platform for virtual and in-person Slack events', notes: '', stakeholders: 'jmancari@salesforce.com', dataFlows: { in: ['Event configurations', 'Brand templates', 'Speaker data'], out: ['Registration data to CRM', 'Attendee lists', 'Event analytics'] } }
+                ]
+            },
+            web: {
+                label: 'Digital Experience & Web Platform', icon: '🌐', colorHex: '#1264a3',
+                purpose: 'Platforms that power the public web experience, CMS, site infrastructure, listings, certificates, UX feedback, and web performance',
+                items: [
+                    { id: 'slack-web', title: 'slack.com (Web)', icon: '🌐', desc: 'Customer-facing web presence; GA4 + Optimizely for personalization', notes: '', dataFlows: { in: ['CMS content from WordPress', 'Experiments from Optimizely', 'Schema from Schema App'], out: ['Page events to GA4', 'Form fills to CRM', 'Conversion events'] } },
+                    { id: 'wordpress', title: 'WordPress', icon: '📝', desc: 'CMS for web content publishing', notes: 'Same platform, different instance', vendorContact: 'renan.basteris@wpvip.com, david.stambaugh@wpvip.com', stakeholders: 'leah.bond@salesforce.com', cost: '$141,000', contractStart: '2025-02-13', contractEnd: '2026-02-12', dataFlows: { in: ['Content from marketing team', 'SEO metadata'], out: ['Published pages to slack.com', 'Content feeds'] } },
+                    { id: 'yext', title: 'Yext', icon: '📍', desc: 'Business listings and knowledge management', notes: 'Core & Slack shared platform', vendorContact: 'azavoianu@yext.com', stakeholders: 'amousavi@salesforce.com, kyle.sherwood@salesforce.com, dmarlier@salesforce.com, arpana.tiwari@salesforce.com', cost: '$21,665', contractStart: '2026-05-01', contractEnd: '2027-04-30', dataFlows: { in: ['Business info updates', 'Location data'], out: ['Listing sync to directories', 'Search analytics'] } },
+                    { id: 'digicert', title: 'Digicert', icon: '🔒', desc: 'SSL/TLS certificates and digital trust for web properties', notes: '', vendorUrl: 'https://www.digicert.com', stakeholders: 'l.sorg@salesforce.com', cost: '$4,000', dataFlows: { in: ['Certificate requests', 'Domain validation'], out: ['SSL certificates to slack.com', 'Trust seals'] } },
+                    { id: 'content-square', title: 'ContentSquare', icon: '🖼️', desc: 'Digital experience analytics and optimization', notes: 'Same platform, different instance', alsoSupports: 'Experimentation, Personalization & Decisioning', vendorContact: 'isabella.diphilippo@contentsquare.com', stakeholders: 'c.white@salesforce.com, emilywang@salesforce.com', cost: '$153,000', contractStart: '2025-04-30', contractEnd: '2027-04-30', dataFlows: { in: ['Session replays', 'Click/scroll data'], out: ['UX insights', 'Optimization recommendations'] } },
+                    { id: 'user-testing', title: 'UserTesting', icon: '🎬', desc: 'Video-first platform for qualitative user feedback on designs and flows', notes: '', vendorContact: 'jbieber@usertesting.com', stakeholders: 'c.white@salesforce.com, emilywang@salesforce.com, sarah.cain@salesforce.com', cost: '$7,788', contractStart: '2026-02-01', contractEnd: '2027-01-31', dataFlows: { in: ['Prototype URLs', 'Test scripts', 'User panels'], out: ['Qualitative feedback videos', 'UX insights to CRO team'] } },
+                    { id: 'speedcurve', title: 'SpeedCurve', icon: '⏱️', desc: 'Web performance monitoring', notes: 'Same platform, different instance', vendorContact: 'tammy@speedcurve.com', stakeholders: 'brandonwalker@salesforce.com, leah.bond@salesforce.com', cost: '$8,820', contractStart: '2025-11-01', contractEnd: '2026-11-01', dataFlows: { in: ['Real user metrics', 'Synthetic tests'], out: ['Performance alerts', 'Core Web Vitals'] } }
+                ]
+            },
+            enrichment: {
+                label: 'Data Enrichment & Identity Resolution', icon: '🔗', colorHex: '#36c5f0',
+                purpose: 'Platforms that append, match, enrich, or resolve people/account/company identity data',
+                items: [
                     { id: 'demandbase', title: 'Demandbase', icon: '🎯', desc: 'SMB lead enrichment and ABM targeting', notes: 'Core moving to Data360', vendorContact: 'ckasman@demandbase.com (Corrine - Sales), tschwartzberg@demandbase.com (Taylor - CSM)', stakeholders: 'hnodus@salesforce.com, nnajjarian@salesforce.com, andy.peterson@salesforce.com', cost: '$123,134', contractStart: '2025-03-06', contractEnd: '2027-01-31', dataFlows: { in: ['Account lists from CRM', 'Intent signals', 'Web visitor data'], out: ['ABM targeting to paid media', 'Lead enrichment to CRM', 'Account scores'] } },
                     { id: 'liveramp', title: 'LiveRamp', icon: '🔗', desc: 'Data clean room / LinkedIn data matching', notes: '', dataFlows: { in: ['First-party audiences from Data Cloud', 'CRM segments'], out: ['Matched audiences to LinkedIn', 'Clean room insights'] } },
-                    { id: 'on24-data', title: 'ON24', icon: '🎥', desc: 'Webinar event data ingestion', notes: '', stakeholders: 'neha.garg@salesforce.com, r.dutta@salesforce.com, luis.almeida@salesforce.com, scottstocker@salesforce.com', dataFlows: { in: ['Webinar registrations', 'Attendance data', 'Engagement scores'], out: ['Event data to Snowflake', 'Attendee lists to CRM', 'Engagement to Data Cloud'] } },
                     { id: 'crunchbase', title: 'Crunchbase', icon: '🏢', desc: 'Company/firmographic enrichment data', notes: '', dataFlows: { in: ['Company lookups from CRM'], out: ['Firmographic data to Data Cloud', 'Company info enrichment'] } },
                     { id: 'leadspace', title: 'Leadspace', icon: '👥', desc: 'B2B data enrichment and audience building', notes: '', stakeholders: 'kim.vo@salesforce.com', dataFlows: { in: ['Lead/contact records', 'Account data'], out: ['Enriched profiles to Data Cloud', 'Audience segments'] } },
                     { id: 'clearbit', title: 'Clearbit', icon: '🔍', desc: 'Lead enrichment — independent tool', notes: 'Independent tool', vendorContact: 'katherine@clearbit.com', stakeholders: 'ahiran@salesforce.com', cost: '$168,000', contractStart: '2025-11-01', contractEnd: '2026-10-31', dataFlows: { in: ['Email/domain lookups'], out: ['Company & person data to CRM', 'Enrichment to Data Cloud'] } },
-                    { id: 'clay', title: 'Clay', icon: '🧱', desc: 'Data enrichment and outbound automation', notes: 'Same platform, different instance', stakeholders: 'kim.vo@salesforce.com, jodenheimer@salesforce.com', cost: '$181,250', contractStart: '2026-01-01', contractEnd: '2026-12-31', dataFlows: { in: ['Lead lists', 'Enrichment triggers'], out: ['Enriched data to CRM', 'Outbound sequences'] } },
+                    { id: 'clay', title: 'Clay', icon: '🧱', desc: 'Data enrichment and outbound automation workflows (primary instance)', notes: 'Same platform, different instance', alsoSupports: 'Campaign Execution & Marketing Automation', stakeholders: 'kim.vo@salesforce.com, jodenheimer@salesforce.com', cost: '$181,250', contractStart: '2026-01-01', contractEnd: '2026-12-31', dataFlows: { in: ['Lead lists', 'Enrichment triggers'], out: ['Enriched data to CRM', 'Outbound sequences'] } }
+                ]
+            },
+            'data-warehouse': {
+                label: 'Customer Data, Warehousing & CRM', icon: '🗄️', colorHex: '#4a154b',
+                purpose: 'Systems that store, unify, govern, or serve as the source of truth for customer, account, lead, opportunity, and marketing data',
+                items: [
+                    { id: 'snowflake', title: 'Snowflake', icon: '❄️', desc: 'Primary data warehouse; source for campaign, enrichment, and attribution data', notes: '', dataFlows: { in: ['Campaign events', 'Enrichment sources', 'Attribution signals'], out: ['Query results to Looker/Tableau', 'Audience segments to Data Cloud', 'Attribution data to MI'] } },
+                    { id: 'salesforce-crm', title: 'Salesforce CRM (Org62)', icon: '💼', desc: 'Lead, contact, and opportunity data', notes: '', dataFlows: { in: ['Lead forms', 'Sales activity', 'MadKudu PQL scores'], out: ['Contact data to Data Cloud', 'Opportunity data to Snowflake', 'Lead info to Demandbase'] } },
+                    { id: 'data-cloud', title: 'Salesforce Data Cloud', icon: '☁️', desc: 'Unified customer profiles and data activation; Slack Individual dataset migration in progress', notes: 'Core moving to Data360', dataFlows: { in: ['CRM data from Org62', 'Enrichment from Leadspace/Clearbit', 'Behavioral events'], out: ['Unified profiles to SMC', 'Segments to channels', 'Activation signals to Agentforce'] } },
                     { id: 'redshift', title: 'Redshift', icon: '🔴', desc: 'GPU-accelerated rendering engine for 3D marketing content and animations', notes: '', stakeholders: 'asherratt@salesforce.com', cost: '$684', contractStart: '2026-06-27', contractEnd: '2027-06-27', dataFlows: { in: ['3D scenes from Cinema 4D', 'Brand assets'], out: ['Rendered animations', 'Campaign visuals'] } }
                 ]
             },
-            analytics: {
-                label: 'Analytics', icon: '📊', colorHex: '#ecb22e',
+            experimentation: {
+                label: 'Experimentation, Personalization & Decisioning', icon: '🧪', colorHex: '#611f69',
+                purpose: 'Platforms that score, decide, personalize, optimize, or trigger next-best actions based on user/account behavior',
+                items: [
+                    { id: 'madkudu', title: 'MadKudu (PQL)', icon: '🎯', desc: 'Product Qualified Lead scoring and decisioning', notes: 'New to Slack — PQL Scoring', stakeholders: 'hnodus@salesforce.com', dataFlows: { in: ['Product usage events', 'CRM data'], out: ['PQL scores to CRM', 'Lead routing signals to Agentforce'] } },
+                    { id: 'optimizely', title: 'Optimizely', icon: '🧪', desc: 'Web experimentation and PLG experimentation', notes: 'Same platform, different instance', vendorContact: 'john.park@optimizely.com', stakeholders: 'c.white@salesforce.com, emilywang@salesforce.com, amousavi@salesforce.com, dmarlier@salesforce.com, arpana.tiwari@salesforce.com', cost: '$226,063', contractStart: '2025-09-15', contractEnd: '2026-09-14', dataFlows: { in: ['Experiment configs', 'User segments'], out: ['Winner decisions to slack.com', 'Experiment data to GA4'] } }
+                ]
+            },
+            'analytics-bi': {
+                label: 'Analytics, Measurement & BI', icon: '📊', colorHex: '#ecb22e',
+                purpose: 'Platforms focused on reporting, dashboards, KPI definitions, attribution, experimentation analysis, growth measurement, and competitive benchmarking',
                 items: [
                     { id: 'looker', title: 'Looker', icon: '🔍', desc: 'Governed marketing KPIs and metric definitions', notes: '', dataFlows: { in: ['Snowflake query results', 'Metric definitions'], out: ['Dashboards to stakeholders', 'KPI alerts'] } },
                     { id: 'tableau', title: 'Tableau / Tableau Next', icon: '📈', desc: 'Marketing dashboards; bundled with Marketing Intelligence', notes: '', dataFlows: { in: ['Snowflake data', 'MI attribution data'], out: ['Visual dashboards', 'Embedded analytics'] } },
                     { id: 'ga4', title: 'Google Analytics 4', icon: '📊', desc: 'Web analytics for slack.com; BigQuery dataset integration', notes: 'Same platform, different instance', dataFlows: { in: ['slack.com page events', 'Conversion tags'], out: ['Web behavior to BigQuery/Snowflake', 'Audience signals to Google Ads'] } },
                     { id: 'marketing-intelligence', title: 'Marketing Intelligence', icon: '🧩', desc: 'Paid media attribution; 100+ ad/MarTech connectors', notes: '', dataFlows: { in: ['Ad platform spend data', 'Conversion data', 'CRM pipeline'], out: ['Attribution reports to Tableau', 'ROI metrics to Looker'] } },
                     { id: 'haus', title: 'Haus', icon: '🧪', desc: 'Incrementality measurement / experimentation', notes: '', dataFlows: { in: ['Campaign exposure data', 'Conversion events'], out: ['Incrementality reports', 'Experiment results'] } },
-                    { id: 'thrive', title: 'Thrive', icon: '🌱', desc: 'Growth/affiliate analytics pipeline', notes: '', dataFlows: { in: ['Affiliate events from Impact', 'Growth signals'], out: ['Pipeline analytics to Snowflake', 'Partner performance'] } },
+                    { id: 'thrive', title: 'Thrive', icon: '🌱', desc: 'Growth/affiliate analytics pipeline', notes: '', alsoSupports: 'Partner, Affiliate & Referral Management', dataFlows: { in: ['Affiliate events from Impact', 'Growth signals'], out: ['Pipeline analytics to Snowflake', 'Partner performance'] } },
+                    { id: 'similarweb', title: 'SimilarWeb', icon: '📈', desc: 'Website traffic analytics and competitive benchmarking', notes: '', alsoSupports: 'SEO, Content Intelligence & Web Optimization', vendorContact: 'Dan Carr', stakeholders: 'arpana.tiwari@salesforce.com, talailima@salesforce.com', cost: '$4,000', contractStart: '2026-01-19', contractEnd: '2027-01-18', dataFlows: { in: ['Domain/URL inputs', 'Competitor lists'], out: ['Traffic benchmarks', 'Market trend data'] } }
+                ]
+            },
+            seo: {
+                label: 'SEO, Content Intelligence & Web Optimization', icon: '🔎', colorHex: '#8B5CF6',
+                purpose: 'Platforms used for SEO, content performance, search visibility, technical site auditing, structured data, and AI/search decisioning',
+                items: [
                     { id: 'semrush', title: 'SEMrush', icon: '🔎', desc: 'SEO analytics and competitive research', notes: 'Core & Slack shared platform', stakeholders: 'arpana.tiwari@salesforce.com, dmarlier@salesforce.com', dataFlows: { in: ['Keyword tracking', 'Competitor URLs'], out: ['SEO insights', 'Competitive intelligence'] } },
                     { id: 'brightedge', title: 'BrightEdge', icon: '⚡', desc: 'Enterprise SEO and content performance', notes: '⚠️ Core retiring contract', vendorContact: 'stephen.lehner@brightedge.com, jason.abbey@brightedge.com', stakeholders: 'dmarlier@salesforce.com, arpana.tiwari@salesforce.com', cost: '$106,008 + $83,992 ProServ', contractStart: '2026-05-01', contractEnd: '2028-04-30', dataFlows: { in: ['Page rankings', 'Content URLs'], out: ['SEO recommendations', 'Content performance'] } },
-                    { id: 'schema-app', title: 'Schema App', icon: '🏗️', desc: 'Structured data / schema markup for SEO', notes: 'Independent tool', vendorContact: 'johnc@schemaapp.com', stakeholders: 'dmarlier@salesforce.com, arpana.tiwari@salesforce.com', cost: '$28,555', contractStart: '2025-12-20', contractEnd: '2027-01-31', dataFlows: { in: ['Page templates', 'Content metadata'], out: ['Schema markup to slack.com', 'Rich result eligibility'] } },
                     { id: 'ahrefs', title: 'Ahrefs', icon: '🔗', desc: 'SEO tool — new to Slack', notes: 'New to Slack', stakeholders: 'arpana.tiwari@salesforce.com, dmarlier@salesforce.com', cost: '$5,000', contractStart: '2025-09-04', contractEnd: '2026-09-03', dataFlows: { in: ['Domain/URL inputs', 'Competitor analysis'], out: ['Backlink data', 'Keyword opportunities'] } },
                     { id: 'lumar', title: 'Lumar', icon: '🕷️', desc: 'Website intelligence / technical SEO', notes: 'New to Slack', vendorContact: 'eric.grabiak@lumar.io', stakeholders: 'brandonwalker@salesforce.com, dmcgahey@slack-corp.com, leah.bond@salesforce.com', cost: '$21,816', contractStart: '2025-05-01', contractEnd: '2026-04-30', dataFlows: { in: ['Crawl of slack.com', 'Technical config'], out: ['Technical SEO issues', 'Site health reports'] } },
-                    { id: 'speedcurve', title: 'SpeedCurve', icon: '⏱️', desc: 'Web performance monitoring', notes: 'Same platform, different instance', vendorContact: 'tammy@speedcurve.com', stakeholders: 'brandonwalker@salesforce.com, leah.bond@salesforce.com', cost: '$8,820', contractStart: '2025-11-01', contractEnd: '2026-11-01', dataFlows: { in: ['Real user metrics', 'Synthetic tests'], out: ['Performance alerts', 'Core Web Vitals'] } },
-                    { id: 'similarweb', title: 'SimilarWeb', icon: '📈', desc: 'Website traffic analytics and competitive benchmarking', notes: '', vendorContact: 'Dan Carr', stakeholders: 'arpana.tiwari@salesforce.com, talailima@salesforce.com', cost: '$4,000', contractStart: '2026-01-19', contractEnd: '2027-01-18', dataFlows: { in: ['Domain/URL inputs', 'Competitor lists'], out: ['Traffic benchmarks', 'Market trend data'] } },
                     { id: 'screaming-frog', title: 'Screaming Frog', icon: '🕷️', desc: 'Website crawler for technical SEO audits', notes: '', stakeholders: 'arpana.tiwari@salesforce.com, dmarlier@salesforce.com, rasheed.badawi@salesforce.com', cost: '$554', contractStart: '2025-05-07', contractEnd: '2026-05-07', dataFlows: { in: ['Crawl of slack.com', 'URL lists'], out: ['Broken links report', 'Redirect chains', 'Duplicate content'] } },
-                    { id: 'user-testing', title: 'User Testing', icon: '🎬', desc: 'Video-first platform for qualitative user feedback on designs and flows', notes: '', vendorContact: 'jbieber@usertesting.com', stakeholders: 'c.white@salesforce.com, emilywang@salesforce.com, sarah.cain@salesforce.com', cost: '$7,788', contractStart: '2026-02-01', contractEnd: '2027-01-31', dataFlows: { in: ['Prototype URLs', 'Test scripts', 'User panels'], out: ['Qualitative feedback videos', 'UX insights to CRO team'] } }
+                    { id: 'schema-app', title: 'Schema App', icon: '🏗️', desc: 'Structured data / schema markup for SEO', notes: 'Independent tool', vendorContact: 'johnc@schemaapp.com', stakeholders: 'dmarlier@salesforce.com, arpana.tiwari@salesforce.com', cost: '$28,555', contractStart: '2025-12-20', contractEnd: '2027-01-31', dataFlows: { in: ['Page templates', 'Content metadata'], out: ['Schema markup to slack.com', 'Rich result eligibility'] } },
+                    { id: 'profound', title: 'Profound', icon: '📐', desc: 'SEO decisioning tool', notes: 'New to Slack — Core & Slack shared', alsoSupports: 'Experimentation, Personalization & Decisioning', stakeholders: 'arpana.tiwari@salesforce.com, dmarlier@salesforce.com', cost: '$18,500', contractStart: '2025-11-20', contractEnd: '2026-11-19', dataFlows: { in: ['SEO data from Ahrefs/SEMrush', 'Content inventory'], out: ['Content optimization decisions', 'Priority recommendations'] } }
                 ]
             },
-            decisioning: {
-                label: 'Decisioning', icon: '🧠', colorHex: '#611f69',
+            partner: {
+                label: 'Partner, Affiliate & Referral Management', icon: '🤝', colorHex: '#059669',
+                purpose: 'Platforms that support partner, affiliate, referral, or third-party acquisition programs',
                 items: [
-                    { id: 'madkudu', title: 'MadKudu (PQL)', icon: '🎯', desc: 'Product Qualified Lead scoring and decisioning', notes: 'New to Slack — PQL Scoring', stakeholders: 'hnodus@salesforce.com', dataFlows: { in: ['Product usage events', 'CRM data'], out: ['PQL scores to CRM', 'Lead routing signals to Agentforce'] } },
-                    { id: 'optimizely', title: 'Optimizely', icon: '🧪', desc: 'Web experimentation and PLG experimentation', notes: 'Same platform, different instance', vendorContact: 'john.park@optimizely.com', stakeholders: 'c.white@salesforce.com, emilywang@salesforce.com, amousavi@salesforce.com, dmarlier@salesforce.com, arpana.tiwari@salesforce.com', cost: '$226,063', contractStart: '2025-09-15', contractEnd: '2026-09-14', dataFlows: { in: ['Experiment configs', 'User segments'], out: ['Winner decisions to slack.com', 'Experiment data to GA4'] } },
-                    { id: 'content-square', title: 'Content Square', icon: '🖼️', desc: 'Digital experience analytics and optimization', notes: 'Same platform, different instance', vendorContact: 'isabella.diphilippo@contentsquare.com', stakeholders: 'c.white@salesforce.com, emilywang@salesforce.com', cost: '$153,000', contractStart: '2025-04-30', contractEnd: '2027-04-30', dataFlows: { in: ['Session replays', 'Click/scroll data'], out: ['UX insights', 'Optimization recommendations'] } },
-                    { id: 'agentforce', title: 'Agentforce / AI Agents', icon: '🤖', desc: 'Decisioning and automation layer across campaigns and lead routing', notes: '', dataFlows: { in: ['PQL scores from MadKudu', 'CRM triggers', 'Data Cloud signals'], out: ['Automated actions to SMC', 'Lead routing to sales', 'Campaign triggers'] } },
-                    { id: 'impact', title: 'Impact', icon: '🤝', desc: 'Partner/affiliate program management and decisioning', notes: '', dataFlows: { in: ['Partner activity', 'Conversion events'], out: ['Commission data to Thrive', 'Partner performance'] } },
-                    { id: 'qualified', title: 'Qualified', icon: '💬', desc: 'Form to meeting booker; MQL generation', notes: 'New to Slack — Core & Slack shared', dataFlows: { in: ['Web visitor data', 'CRM account info'], out: ['Meeting bookings to CRM', 'MQL signals'] } },
-                    { id: 'integrate', title: 'Integrate', icon: '🔄', desc: 'Demand gen / lead management and routing', notes: 'Core moving to Converter', vendorContact: 'mostrander@integrate.com', stakeholders: 'nimira.medve@salesforce.com', cost: '$192,000', contractStart: '2026-02-01', contractEnd: '2027-01-31', dataFlows: { in: ['Content syndication leads', 'Third-party leads'], out: ['Qualified leads to CRM', 'Routing decisions'] } },
-                    { id: 'profound', title: 'Profound', icon: '📐', desc: 'SEO decisioning tool', notes: 'New to Slack — Core & Slack shared', stakeholders: 'arpana.tiwari@salesforce.com, dmarlier@salesforce.com', cost: '$18,500', contractStart: '2025-11-20', contractEnd: '2026-11-19', dataFlows: { in: ['SEO data from Ahrefs/SEMrush', 'Content inventory'], out: ['Content optimization decisions', 'Priority recommendations'] } }
-                ]
-            },
-            presentation: {
-                label: 'Presentation', icon: '🎨', colorHex: '#e01e5a',
-                items: [
-                    { id: 'smc', title: 'Salesforce Marketing Cloud', icon: '✉️', desc: 'Core email execution engine and data extensions', notes: 'Core & Slack shared platform', dataFlows: { in: ['Segments from Data Cloud', 'Campaign triggers from Agentforce', 'Templates'], out: ['Email sends', 'Engagement data to Snowflake', 'Delivery metrics'] } },
-                    { id: 'slack-web', title: 'slack.com (Web)', icon: '🌐', desc: 'Customer-facing web presence; GA4 + Optimizely for personalization', notes: '', dataFlows: { in: ['CMS content from WordPress', 'Experiments from Optimizely', 'Schema from Schema App'], out: ['Page events to GA4', 'Form fills to CRM', 'Conversion events'] } },
-                    { id: 'rainfocus', title: 'Rainfocus', icon: '🎪', desc: 'Event management and staffing platform', notes: '', dataFlows: { in: ['Event configs', 'Speaker/session data'], out: ['Registration data to CRM', 'Attendance to Snowflake'] } },
-                    { id: 'on24-present', title: 'ON24 (Events)', icon: '📹', desc: 'Webinar/virtual event presentation platform', notes: 'Core & Slack shared platform', dataFlows: { in: ['Webinar content', 'Registration lists'], out: ['Engagement scores to Data Cloud', 'Recordings', 'Attendee data'] } },
-                    { id: 'yext', title: 'Yext', icon: '📍', desc: 'Business listings and knowledge management', notes: 'Core & Slack shared platform', vendorContact: 'azavoianu@yext.com', stakeholders: 'amousavi@salesforce.com, kyle.sherwood@salesforce.com, dmarlier@salesforce.com, arpana.tiwari@salesforce.com', cost: '$21,665', contractStart: '2026-05-01', contractEnd: '2027-04-30', dataFlows: { in: ['Business info updates', 'Location data'], out: ['Listing sync to directories', 'Search analytics'] } },
-                    { id: 'wordpress', title: 'WordPress', icon: '📝', desc: 'CMS for web content publishing', notes: 'Same platform, different instance', vendorContact: 'renan.basteris@wpvip.com, david.stambaugh@wpvip.com', stakeholders: 'leah.bond@salesforce.com', cost: '$141,000', contractStart: '2025-02-13', contractEnd: '2026-02-12', dataFlows: { in: ['Content from marketing team', 'SEO metadata'], out: ['Published pages to slack.com', 'Content feeds'] } },
-                    { id: 'next-gen-ma', title: 'Next Gen Marketing Automation', icon: '⚙️', desc: 'Marketing automation platform (Marketo replacement)', notes: 'Core & Slack shared platform', dataFlows: { in: ['Lead data from CRM', 'Behavioral triggers', 'Content assets'], out: ['Nurture emails', 'Lead scores to CRM', 'Campaign analytics'] } },
-                    { id: 'splashthat', title: 'SplashThat', icon: '🎪', desc: 'Event marketing platform for virtual and in-person Slack events', notes: '', stakeholders: 'jmancari@salesforce.com', dataFlows: { in: ['Event configurations', 'Brand templates', 'Speaker data'], out: ['Registration data to CRM', 'Attendee lists', 'Event analytics'] } },
-                    { id: 'digicert', title: 'Digicert', icon: '🔒', desc: 'SSL/TLS certificates and digital trust for web properties', notes: '', vendorUrl: 'https://www.digicert.com', stakeholders: 'l.sorg@salesforce.com', cost: '$4,000', dataFlows: { in: ['Certificate requests', 'Domain validation'], out: ['SSL certificates to slack.com', 'Trust seals'] } }
-                ]
-            },
-            channels: {
-                label: 'Channels', icon: '📢', colorHex: '#2eb67d',
-                items: [
-                    { id: 'ch-email', title: 'Email', icon: '📧', desc: 'Salesforce Marketing Cloud (SMC)', notes: '', dataFlows: { in: ['Templates from SMC', 'Audiences from Data Cloud', 'Triggers from Agentforce'], out: ['Engagement data to Snowflake', 'Deliverability metrics'] } },
-                    { id: 'ch-web', title: 'Web / Digital', icon: '🌐', desc: 'slack.com, landing pages, PLG flows', notes: '', dataFlows: { in: ['CMS content', 'Personalization from Optimizely', 'Qualified chat'], out: ['Conversion events to GA4', 'Form fills to CRM'] } },
-                    { id: 'ch-inapp', title: 'In-App', icon: '📱', desc: 'Product-led growth notifications within Slack', notes: '', dataFlows: { in: ['PQL signals from MadKudu', 'Experiment variants'], out: ['Usage events to Snowflake', 'Conversion to MadKudu'] } },
-                    { id: 'ch-paid', title: 'Paid Media', icon: '📣', desc: 'Google Ads, Meta, LinkedIn, CM360, Capterra, Teads, OMR, Reddit', notes: '', dataFlows: { in: ['Audiences from LiveRamp/Data Cloud', 'ABM lists from Demandbase'], out: ['Impression/click data to MI', 'Conversion events'] } },
-                    { id: 'ch-events', title: 'Webinar / Events', icon: '🎙️', desc: 'ON24, Rainfocus', notes: '', dataFlows: { in: ['Event content', 'Promo from email/paid'], out: ['Registration/attendance to CRM', 'Engagement to Data Cloud'] } },
-                    { id: 'ch-affiliate', title: 'Affiliate / Partner', icon: '🤝', desc: 'Impact', notes: '', dataFlows: { in: ['Partner program config', 'Creative assets'], out: ['Referral conversions to Thrive', 'Commission events'] } }
+                    { id: 'impact', title: 'Impact', icon: '🤝', desc: 'Partner/affiliate program management and decisioning', notes: '', dataFlows: { in: ['Partner activity', 'Conversion events'], out: ['Commission data to Thrive', 'Partner performance'] } }
                 ]
             }
         };
@@ -2201,7 +2386,7 @@
             { from: 'salesforce-crm', to: 'next-gen-ma', label: 'Lead data' },
             { from: 'demandbase', to: 'ch-paid', label: 'ABM targeting' },
             { from: 'liveramp', to: 'ch-paid', label: 'Matched audiences' },
-            { from: 'on24-data', to: 'snowflake', label: 'Event data' },
+            { from: 'on24', to: 'snowflake', label: 'Event data' },
             { from: 'leadspace', to: 'data-cloud', label: 'Enriched profiles' },
             { from: 'clearbit', to: 'salesforce-crm', label: 'Lead enrichment' },
             { from: 'madkudu', to: 'salesforce-crm', label: 'PQL scores' },
@@ -2251,6 +2436,7 @@
                     <h2>${catData.label}</h2>
                     <span class="platform-count">${catData.items.length} platforms</span>
                 </div>
+                ${catData.purpose ? `<p class="category-desc">${catData.purpose}</p>` : ''}
                 <div class="nodes-grid"></div>
             `;
             sectionsContainer.appendChild(section);
@@ -2262,14 +2448,16 @@
                 el.dataset.id = item.id;
                 el.dataset.category = catKey;
                 let badges = '';
-                if (item.notes.includes('New to Slack') || item.notes === 'New to Slack') badges += `<span class="node-badge status-new">New</span>`;
-                if (item.notes.includes('retiring') || item.notes.includes('moving')) badges += `<span class="node-badge status-warning">Changing</span>`;
-                if (item.notes.includes('shared')) badges += `<span class="node-badge status-shared">Shared</span>`;
-                if (item.notes.includes('Independent')) badges += `<span class="node-badge status-default">Independent</span>`;
-                if (item.notes.includes('Same platform')) badges += `<span class="node-badge status-default">Multi-instance</span>`;
+                if (item.notes && (item.notes.includes('New to Slack') || item.notes === 'New to Slack')) badges += `<span class="node-badge status-new">New</span>`;
+                if (item.notes && (item.notes.includes('retiring') || item.notes.includes('moving'))) badges += `<span class="node-badge status-warning">Changing</span>`;
+                if (item.notes && item.notes.includes('shared')) badges += `<span class="node-badge status-shared">Shared</span>`;
+                if (item.notes && item.notes.includes('Independent')) badges += `<span class="node-badge status-default">Independent</span>`;
+                if (item.notes && item.notes.includes('Same platform')) badges += `<span class="node-badge status-default">Multi-instance</span>`;
+                if (item.alsoSupports) badges += `<span class="node-badge status-multi">Multi-category</span>`;
                 el.innerHTML = `
                     <div class="node-title">${item.title}</div>
                     <div class="node-desc">${item.desc}</div>
+                    ${item.alsoSupports ? `<div class="node-also-supports">Also: ${item.alsoSupports}</div>` : ''}
                     ${badges ? `<div class="node-badges">${badges}</div>` : ''}
                 `;
                 el.addEventListener('click', () => openPanel(item, catKey, catData.colorHex));
@@ -2332,6 +2520,7 @@
 
                 <h3>Description</h3>
                 <p>${item.desc}</p>
+                ${item.alsoSupports ? `<h3>Also Supports</h3><p style="font-style:italic;">${item.alsoSupports}</p>` : ''}
 
                 ${item.vendorUrl ? `<h3>Vendor URL</h3><p><a href="${item.vendorUrl}" target="_blank" style="color:${color}; text-decoration:none; font-weight:700;">${item.vendorUrl}</a></p>` : ''}
                 ${item.vendorContact ? `<h3>Vendor Contact</h3><p>${item.vendorContact}</p>` : ''}
@@ -2412,11 +2601,16 @@
         function renderFlowDiagram() {
             const diagram = document.getElementById('flow-diagram');
             const layers = [
-                { key: 'data', label: 'DATA LAYER', color: '#36c5f0' },
-                { key: 'decisioning', label: 'DECISIONING LAYER', color: '#611f69' },
-                { key: 'presentation', label: 'PRESENTATION LAYER', color: '#e01e5a' },
-                { key: 'channels', label: 'CHANNEL LAYER', color: '#2eb67d' },
-                { key: 'analytics', label: 'ANALYTICS LAYER', color: '#ecb22e' }
+                { key: 'channels', label: 'ACQUISITION CHANNELS', color: '#2eb67d' },
+                { key: 'campaign', label: 'CAMPAIGN EXECUTION', color: '#e01e5a' },
+                { key: 'events', label: 'EVENTS & WEBINAR', color: '#ff6b35' },
+                { key: 'web', label: 'WEB PLATFORM', color: '#1264a3' },
+                { key: 'enrichment', label: 'ENRICHMENT', color: '#36c5f0' },
+                { key: 'data-warehouse', label: 'DATA & CRM', color: '#4a154b' },
+                { key: 'experimentation', label: 'EXPERIMENTATION', color: '#611f69' },
+                { key: 'analytics-bi', label: 'ANALYTICS & BI', color: '#ecb22e' },
+                { key: 'seo', label: 'SEO & CONTENT', color: '#8B5CF6' },
+                { key: 'partner', label: 'PARTNER', color: '#059669' }
             ];
             diagram.innerHTML = layers.map((layer, i) => `
                 ${i > 0 ? `<div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="${layer.color}" stroke-width="2" fill="none" stroke-linecap="round"/></svg><svg viewBox="0 0 24 24"><path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="${layer.color}" stroke-width="2" fill="none" stroke-linecap="round"/></svg><svg viewBox="0 0 24 24"><path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="${layer.color}" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>` : ''}
@@ -2437,11 +2631,16 @@
             const w = document.getElementById('network-canvas').offsetWidth || 1400;
             const h = document.getElementById('network-canvas').offsetHeight || 800;
             const catPositions = {
-                data: { cx: w * 0.15, cy: h * 0.45 },
-                analytics: { cx: w * 0.85, cy: h * 0.35 },
-                decisioning: { cx: w * 0.4, cy: h * 0.25 },
-                presentation: { cx: w * 0.55, cy: h * 0.7 },
-                channels: { cx: w * 0.8, cy: h * 0.72 }
+                'channels': { cx: w * 0.15, cy: h * 0.2 },
+                'campaign': { cx: w * 0.5, cy: h * 0.2 },
+                'events': { cx: w * 0.85, cy: h * 0.2 },
+                'web': { cx: w * 0.15, cy: h * 0.5 },
+                'enrichment': { cx: w * 0.4, cy: h * 0.5 },
+                'data-warehouse': { cx: w * 0.65, cy: h * 0.5 },
+                'experimentation': { cx: w * 0.85, cy: h * 0.5 },
+                'analytics-bi': { cx: w * 0.2, cy: h * 0.8 },
+                'seo': { cx: w * 0.5, cy: h * 0.8 },
+                'partner': { cx: w * 0.8, cy: h * 0.8 }
             };
 
             allNodes.forEach((node, i) => {
@@ -3357,6 +3556,7 @@
                         <h2>${catData.label}</h2>
                         <span class="platform-count">${catData.items.length} platforms</span>
                     </div>
+                    ${catData.purpose ? `<p class="category-desc">${catData.purpose}</p>` : ''}
                     <div class="nodes-grid"></div>
                 `;
                 sectionsContainer.appendChild(section);
@@ -3372,11 +3572,13 @@
                     if (item.notes && item.notes.includes('shared')) badges += `<span class="node-badge status-shared">Shared</span>`;
                     if (item.notes && item.notes.includes('Independent')) badges += `<span class="node-badge status-default">Independent</span>`;
                     if (item.notes && item.notes.includes('Same platform')) badges += `<span class="node-badge status-default">Multi-instance</span>`;
+                    if (item.alsoSupports) badges += `<span class="node-badge status-multi">Multi-category</span>`;
                     const isCustom = getCustomPlatforms().find(p => p.id === item.id);
                     if (isCustom) badges += `<span class="node-badge status-new">Custom</span>`;
                     el.innerHTML = `
                         <div class="node-title">${item.title}</div>
                         <div class="node-desc">${item.desc}</div>
+                        ${item.alsoSupports ? `<div class="node-also-supports">Also: ${item.alsoSupports}</div>` : ''}
                         ${badges ? `<div class="node-badges">${badges}</div>` : ''}
                     `;
                     el.addEventListener('click', () => openPanel(item, catKey, catData.colorHex));
@@ -3662,6 +3864,47 @@
                 document.getElementById('admin-overlay').classList.remove('active');
             }
         });
+
+        // ===== JOURNEY VIEW TOGGLE =====
+        document.getElementById('platform-view-btn').addEventListener('click', () => {
+            document.getElementById('platform-view-btn').classList.add('active');
+            document.getElementById('journey-view-btn').classList.remove('active');
+            document.getElementById('sections-container').style.display = '';
+            document.getElementById('journey-view').classList.remove('active');
+        });
+
+        document.getElementById('journey-view-btn').addEventListener('click', () => {
+            document.getElementById('journey-view-btn').classList.add('active');
+            document.getElementById('platform-view-btn').classList.remove('active');
+            document.getElementById('sections-container').style.display = 'none';
+            document.getElementById('journey-view').classList.add('active');
+            renderJourneyView();
+        });
+
+        function renderJourneyView() {
+            const container = document.getElementById('journey-view');
+            const stages = [
+                { name: 'Attract', platforms: ['Paid Media', 'SEMrush', 'BrightEdge', 'Ahrefs', 'Lumar', 'Screaming Frog', 'Schema App', 'Profound', 'slack.com (Web)', 'WordPress', 'ON24', 'Rainfocus', 'SplashThat', 'Impact'] },
+                { name: 'Capture', platforms: ['ON24', 'Rainfocus', 'SplashThat', 'Integrate', 'Qualified', 'slack.com (Web)'] },
+                { name: 'Enrich', platforms: ['Demandbase', 'Leadspace', 'Clearbit', 'Crunchbase', 'LiveRamp', 'Clay'] },
+                { name: 'Score / Decide', platforms: ['MadKudu (PQL)', 'Agentforce / AI Agents', 'Optimizely', 'Profound'] },
+                { name: 'Route', platforms: ['Integrate', 'Salesforce CRM (Org62)', 'Qualified', 'Agentforce / AI Agents'] },
+                { name: 'Engage', platforms: ['Salesforce Marketing Cloud', 'Next Gen Marketing Automation', 'In-App', 'ON24'] },
+                { name: 'Convert', platforms: ['Salesforce CRM (Org62)', 'Qualified', 'Integrate'] },
+                { name: 'Measure / Optimize', platforms: ['Looker', 'Tableau / Tableau Next', 'Google Analytics 4', 'Marketing Intelligence', 'Haus', 'ContentSquare', 'SpeedCurve', 'SimilarWeb'] }
+            ];
+            container.innerHTML = stages.map((stage, i) => `
+                <div class="journey-stage">
+                    <div class="journey-stage-header">
+                        <div class="journey-stage-number">${i + 1}</div>
+                        <h3>${stage.name}</h3>
+                    </div>
+                    <div class="journey-platforms">
+                        ${stage.platforms.map(p => `<span class="journey-platform-tag">${p}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
 
         // Load custom platforms on startup
         loadCustomPlatforms();
