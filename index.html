@@ -767,73 +767,6 @@
 
         .flow-canvas { width: 100%; min-height: 100vh; padding: 80px 40px 40px; }
 
-        .flow-diagram {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 16px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .flow-layer {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 24px 20px;
-            border: 2px solid var(--layer-color);
-            border-radius: var(--radius-lg);
-            background: var(--slack-white);
-            width: 100%;
-            position: relative;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .flow-layer::before {
-            content: attr(data-label);
-            position: absolute;
-            top: -11px;
-            left: 24px;
-            background: var(--slack-white);
-            padding: 0 12px;
-            font-size: 0.7rem;
-            font-weight: 900;
-            color: var(--layer-color);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-
-        .flow-node {
-            padding: 8px 14px;
-            border-radius: 100px;
-            background: var(--slack-gray-100);
-            border: 1px solid var(--slack-gray-200);
-            font-size: 0.78rem;
-            font-weight: 700;
-            color: var(--slack-dark);
-            transition: all 0.2s;
-        }
-
-        .flow-node:hover {
-            background: color-mix(in srgb, var(--layer-color) 10%, var(--slack-white));
-            border-color: var(--layer-color);
-        }
-
-        .flow-arrow {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 4px 0;
-        }
-
-        .flow-arrow svg {
-            width: 20px;
-            height: 20px;
-            fill: var(--slack-aubergine);
-        }
-
         /* ===== LEAD FLOW VIEW ===== */
         .lead-flow-container {
             max-width: 1400px;
@@ -1419,7 +1352,6 @@
     </div>
     <div class="controls controls-secondary">
         <button class="view-btn" id="network-btn">Network Map</button>
-        <button class="view-btn" id="flow-btn">Layer Diagram</button>
         <button class="view-btn" id="lead-flow-btn">Lead Flow</button>
         <div class="separator"></div>
         <button class="admin-btn" id="admin-btn">+ Admin</button>
@@ -1496,14 +1428,6 @@
     <div class="detail-panel" id="detail-panel">
         <button class="close-btn" id="close-panel">&times;</button>
         <div id="panel-content"></div>
-    </div>
-
-    <!-- FLOW OVERLAY -->
-    <div class="flow-overlay" id="flow-overlay">
-        <button class="close-flow" id="close-flow">Close Layer View</button>
-        <div class="flow-canvas">
-            <div class="flow-diagram" id="flow-diagram"></div>
-        </div>
     </div>
 
     <!-- LEAD FLOW OVERLAY -->
@@ -1978,7 +1902,6 @@
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape') {
                 document.getElementById('detail-panel').classList.remove('open');
-                document.getElementById('flow-overlay').classList.remove('active');
                 document.getElementById('lead-flow-overlay').classList.remove('active');
                 netActiveNode = null;
                 document.querySelectorAll('.net-node').forEach(n => n.classList.remove('active'));
@@ -2004,37 +1927,6 @@
                 networkView.classList.remove('active');
             });
         });
-
-        // Flow overlay
-        document.getElementById('flow-btn').addEventListener('click', () => {
-            document.getElementById('flow-overlay').classList.add('active');
-            renderFlowDiagram();
-        });
-        document.getElementById('close-flow').addEventListener('click', () => {
-            document.getElementById('flow-overlay').classList.remove('active');
-        });
-
-        function renderFlowDiagram() {
-            const diagram = document.getElementById('flow-diagram');
-            const layers = [
-                { key: 'channels', label: 'ACQUISITION CHANNELS', color: '#2eb67d' },
-                { key: 'campaign', label: 'CAMPAIGN EXECUTION', color: '#e01e5a' },
-                { key: 'events', label: 'EVENTS & WEBINAR', color: '#ff6b35' },
-                { key: 'web', label: 'WEB PLATFORM', color: '#1264a3' },
-                { key: 'enrichment', label: 'ENRICHMENT', color: '#36c5f0' },
-                { key: 'data-warehouse', label: 'DATA & CRM', color: '#4a154b' },
-                { key: 'experimentation', label: 'EXPERIMENTATION', color: '#611f69' },
-                { key: 'analytics-bi', label: 'ANALYTICS & BI', color: '#ecb22e' },
-                { key: 'seo', label: 'SEO & CONTENT', color: '#8B5CF6' },
-                { key: 'partner', label: 'PARTNER', color: '#059669' }
-            ];
-            diagram.innerHTML = layers.map((layer, i) => `
-                ${i > 0 ? `<div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="${layer.color}" stroke-width="2" fill="none" stroke-linecap="round"/></svg><svg viewBox="0 0 24 24"><path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="${layer.color}" stroke-width="2" fill="none" stroke-linecap="round"/></svg><svg viewBox="0 0 24 24"><path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="${layer.color}" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>` : ''}
-                <div class="flow-layer" data-label="${layer.label}" style="--layer-color:${layer.color}; border-color:${layer.color};">
-                    ${platforms[layer.key].items.map(item => `<div class="flow-node">${item.title}</div>`).join('')}
-                </div>
-            `).join('');
-        }
 
         // ===== NETWORK MAP =====
         let netInitialized = false;
