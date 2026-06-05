@@ -382,87 +382,6 @@
             margin-top: 6px;
         }
 
-        .view-toggle {
-            display: flex;
-            justify-content: center;
-            gap: 0;
-            padding: 12px 20px;
-            background: var(--slack-gray-100);
-            border-bottom: 1px solid var(--slack-gray-200);
-        }
-        .view-toggle button {
-            padding: 8px 20px;
-            border: 1px solid var(--slack-gray-300);
-            background: var(--slack-white);
-            color: var(--slack-gray-700);
-            font-size: 0.82rem;
-            font-weight: 700;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .view-toggle button:first-child { border-radius: 100px 0 0 100px; }
-        .view-toggle button:last-child { border-radius: 0 100px 100px 0; }
-        .view-toggle button.active {
-            background: var(--slack-aubergine-dark);
-            border-color: var(--slack-aubergine-dark);
-            color: var(--slack-white);
-        }
-
-        .journey-view { display: none; max-width: 1400px; margin: 0 auto; padding: 40px 24px; }
-        .journey-view.active { display: block; }
-        .journey-stage {
-            margin-bottom: 32px;
-            padding: 20px 24px;
-            border-radius: var(--radius);
-            border: 1px solid var(--slack-gray-200);
-            background: var(--slack-white);
-        }
-        .journey-stage-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 14px;
-        }
-        .journey-stage-number {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: var(--slack-aubergine-dark);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 900;
-        }
-        .journey-stage h3 {
-            font-size: 1.1rem;
-            font-weight: 900;
-            color: var(--slack-dark);
-        }
-        .journey-platforms {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .journey-platform-tag {
-            padding: 6px 14px;
-            border-radius: 100px;
-            background: var(--slack-gray-100);
-            border: 1px solid var(--slack-gray-200);
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--slack-gray-700);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .journey-platform-tag:hover {
-            background: var(--slack-aubergine-dark);
-            color: white;
-            border-color: var(--slack-aubergine-dark);
-        }
-
         /* Stats bar */
         .stats-bar {
             display: flex;
@@ -1525,14 +1444,7 @@
             <div class="legend-item"><div class="legend-dot" style="background:#059669"></div>Partner</div>
         </div>
 
-        <div class="view-toggle" id="view-toggle">
-            <button class="active" id="platform-view-btn">Platform View</button>
-            <button id="journey-view-btn">Journey View</button>
-        </div>
-
         <div id="sections-container"></div>
-
-        <div class="journey-view" id="journey-view"></div>
 
         <div class="stats-bar">
             <div class="stat"><div class="stat-value">50</div><div class="stat-label">Total Platforms</div></div>
@@ -2995,47 +2907,6 @@
                 document.getElementById('admin-overlay').classList.remove('active');
             }
         });
-
-        // ===== JOURNEY VIEW TOGGLE =====
-        document.getElementById('platform-view-btn').addEventListener('click', () => {
-            document.getElementById('platform-view-btn').classList.add('active');
-            document.getElementById('journey-view-btn').classList.remove('active');
-            document.getElementById('sections-container').style.display = '';
-            document.getElementById('journey-view').classList.remove('active');
-        });
-
-        document.getElementById('journey-view-btn').addEventListener('click', () => {
-            document.getElementById('journey-view-btn').classList.add('active');
-            document.getElementById('platform-view-btn').classList.remove('active');
-            document.getElementById('sections-container').style.display = 'none';
-            document.getElementById('journey-view').classList.add('active');
-            renderJourneyView();
-        });
-
-        function renderJourneyView() {
-            const container = document.getElementById('journey-view');
-            const stages = [
-                { name: 'Attract', platforms: ['Paid Media', 'SEMrush', 'BrightEdge', 'Ahrefs', 'Lumar', 'Screaming Frog', 'Schema App', 'Profound', 'slack.com (Web)', 'WordPress', 'ON24', 'Rainfocus', 'SplashThat', 'Impact'] },
-                { name: 'Capture', platforms: ['ON24', 'Rainfocus', 'SplashThat', 'Integrate', 'Qualified', 'slack.com (Web)'] },
-                { name: 'Enrich', platforms: ['Demandbase', 'Leadspace', 'Clearbit', 'Crunchbase', 'LiveRamp', 'Clay'] },
-                { name: 'Score / Decide', platforms: ['MadKudu (PQL)', 'Agentforce / AI Agents', 'Optimizely', 'Profound'] },
-                { name: 'Route', platforms: ['Integrate', 'Salesforce CRM (Org62)', 'Qualified', 'Agentforce / AI Agents'] },
-                { name: 'Engage', platforms: ['Salesforce Marketing Cloud', 'Next Gen Marketing Automation', 'In-App', 'ON24'] },
-                { name: 'Convert', platforms: ['Salesforce CRM (Org62)', 'Qualified', 'Integrate'] },
-                { name: 'Measure / Optimize', platforms: ['Looker', 'Tableau / Tableau Next', 'Google Analytics 4', 'Marketing Intelligence', 'Haus', 'ContentSquare', 'SpeedCurve', 'SimilarWeb'] }
-            ];
-            container.innerHTML = stages.map((stage, i) => `
-                <div class="journey-stage">
-                    <div class="journey-stage-header">
-                        <div class="journey-stage-number">${i + 1}</div>
-                        <h3>${stage.name}</h3>
-                    </div>
-                    <div class="journey-platforms">
-                        ${stage.platforms.map(p => `<span class="journey-platform-tag">${p}</span>`).join('')}
-                    </div>
-                </div>
-            `).join('');
-        }
 
         // Load custom platforms on startup
         loadCustomPlatforms();
